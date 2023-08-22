@@ -32,15 +32,15 @@ function LoginPage() {
           required
           mt="md"
         />
+        <Button fullWidth mt="xl">
+          Sign in
+        </Button>
         <Text color="dimmed" size="sm" align="center" mt={5}>
           Do not have an account yet? {" "}
         <Anchor size="sm" component="button">
           Sign Up!
         </Anchor>
         </Text>
-        <Button fullWidth mt="xl">
-          Sign in
-        </Button>
       </Paper>
     </Container>
   );
