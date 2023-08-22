@@ -10,6 +10,9 @@ import {
   Group,
   Button,
 } from "@mantine/core";
+import { NavLink, useNavigate } from "react-router-dom";
+import SignupPage from "./SignupPage"; 
+
 
 function LoginPage() {
   return (
@@ -36,9 +39,11 @@ function LoginPage() {
           Sign in
         </Button>
         <Text color="dimmed" size="sm" align="center" mt={5}>
-          Do not have an account yet? {" "}
+          Don't have an account? {" "}
         <Anchor size="sm" component="button">
+        <NavLink to="/signup">
           Sign Up!
+        </NavLink>  
         </Anchor>
         </Text>
       </Paper>

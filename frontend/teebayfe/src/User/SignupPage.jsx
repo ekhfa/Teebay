@@ -12,10 +12,12 @@ import {
   Button,
   Stack,
 } from "@mantine/core";
+import { NavLink, useNavigate } from "react-router-dom";
+import LoginPage from "./LoginPage"; 
 
 function SignupPage() {
   return (
-    <Container size={520} my={40}>
+    <Container size={520} my={10}>
       <Title
         align="center"
         sx={(theme) => ({
@@ -64,10 +66,13 @@ function SignupPage() {
             size="sm"
             onClick={(event) => event.preventDefault()}
           >
-            Sign In
+        <NavLink to="/login">
+          Sign In 
+        </NavLink>
           </Anchor>
         </Text>
       </Paper>
+      
     </Container>
   );
 }
