@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Center, Text, Paper, Button, Group } from '@mantine/core';
 
-function SummaryForm({ formData, handleBack }) {
+function SummaryForm({ formData, handleBack, handleSubmit }) {
   return (
     <Container size="xl" style={{ minHeight: '100vh' }}>
       <Center style={{ width: '100%', marginTop: '8rem' }}>
@@ -25,7 +25,8 @@ function SummaryForm({ formData, handleBack }) {
             onClick={handleBack}>
               Back
             </Button>
-            <Button size="sm" style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+            <Button size="sm" style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} 
+             onClick={handleSubmit}>
               Submit
             </Button>
           </Group>

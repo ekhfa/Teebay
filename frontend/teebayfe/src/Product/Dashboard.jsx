@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Group, Container, Text, Title } from '@mantine/core';
+import { Button, Group, Container, Text, Title, Card } from '@mantine/core';
 import { NavLink, useNavigate } from "react-router-dom";
 
 function Dashboard() {

@@ -5,8 +5,10 @@ import SecondForm from './SecondForm';
 import ThirdForm from './ThirdForm';
 import ForthForm from './ForthForm';
 import SummaryForm from './SummaryForm';
+import Dashboard from '../Dashboard';
 
 function RootForm() {
+      const [products, setProducts] = useState([]);
       const [step, setStep] = useState(0);
       const [formData, setFormData] = useState({
         productTitle: '',
@@ -29,8 +31,13 @@ function RootForm() {
 
       const handleSubmit = () => {
         // Handle form submission
-        console.log(formData);
+        console.log("handleSubmit called");
+        //console.log(formData);
+        setProducts([...products, formData]);
+        console.log("Product: " ,products)
       };
+
+     
     
       const handleFormChange = (newData) => {
         setFormData({ ...formData, ...newData });
@@ -48,7 +55,7 @@ function RootForm() {
       case 3:
         return <ForthForm formData={formData} onChange={handleFormChange} handleNext={handleNext} handleBack={handleBack}/>;
       case 4:
-        return <SummaryForm formData={formData} handleBack={handleBack} onSubmit={handleSubmit}/>;
+        return <SummaryForm formData={formData} handleBack={handleBack} handleSubmit={handleSubmit}/>;
       default:
         return null;
     }
