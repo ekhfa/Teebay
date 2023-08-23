@@ -15,19 +15,19 @@ function Dashboard() {
   };
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <Button size="lg" variant="light" style={buttonStyle}>
-        Add Product
-      </Button>
-      <Group style={logoutButtonStyle}>
-        <Button size="lg" variant="light">
-          LOGOUT
-        </Button>
-      </Group>
-      <Container size="xl" style={{ paddingTop: '60px' }}>
+    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Container size="xl" style={{ paddingTop: '70px', flex: 1 }}>
         <Text align="center" size="xl">
           My Products!
         </Text>
+        <Button size="sm" variant="light" style={buttonStyle}>
+          Add Product
+        </Button>
+        <Group style={logoutButtonStyle}>
+          <Button size="sm" variant="light">
+            LOGOUT
+          </Button>
+        </Group>
       </Container>
     </div>
   );
