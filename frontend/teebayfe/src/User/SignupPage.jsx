@@ -31,19 +31,19 @@ function SignupPage() {
         <Stack spacing="xs">
         <Grid gutter="md">
             <Grid.Col span={6}>
-              <TextInput label="FirstName" placeholder="FirstName" required />
+              <TextInput label="First Name" placeholder="Enter Your First Name" required />
             </Grid.Col>
             <Grid.Col span={6}>
-              <TextInput label="LastName" placeholder="LastName" required />
+              <TextInput label="Last Name" placeholder="Enter Your Last Name" required />
             </Grid.Col>
             </Grid>
-          <TextInput label="Address" placeholder="Adress" required />
+          <TextInput label="Address" placeholder="Enter Your Address" required />
           <Grid gutter="md">
             <Grid.Col span={6}>
-            <TextInput label="Email" placeholder="you@mantine.dev" required />
+            <TextInput label="Email" placeholder="Enter Your Email" required />
             </Grid.Col>
             <Grid.Col span={6}>
-            <TextInput label="PhoneNumber" placeholder="PhoneNumber" required />
+            <TextInput label="Phone Number" placeholder="Enter Your Phone Number" required />
             </Grid.Col>
             </Grid>
           <PasswordInput
