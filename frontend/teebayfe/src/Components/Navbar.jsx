@@ -28,6 +28,8 @@ import {
     IconCoin,
     IconChevronDown,
   } from '@tabler/icons-react';
+  import { NavLink, useNavigate } from "react-router-dom";
+  import Dashboard from '../Product/Dashboard';
   
   const useStyles = createStyles((theme) => ({
     link: {
@@ -86,13 +88,12 @@ import {
                 Home
               </a>
               <a href="#" className={classes.link}>
-                My Products
+                Products
               </a>
-              {/* <a href="#" className={classes.link}>
-                Academy
-              </a> */}
+              <NavLink to="/dashboard" className={classes.link}>
+              Dashboard
+            </NavLink>
             </Group>
-  
             <Group className={classes.hiddenMobile}>
               <Button>LOGOUT</Button>
             </Group>
@@ -116,11 +117,11 @@ import {
             Home
             </a>
             <a href="#" className={classes.link}>
-            My Products
+            Products
           </a>
-          {/* <a href="#" className={classes.link}>
-            Academy
-          </a> */}
+          <NavLink to="/dashboard" className={classes.link}>
+              Dashboard
+            </NavLink>
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
             <Group position="center" grow pb="xl" px="md">
               <Button>LOGOUT</Button>
@@ -131,4 +132,4 @@ import {
     );
   }
 
-  export default Navbar;
+export default Navbar;
