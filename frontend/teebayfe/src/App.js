@@ -9,7 +9,6 @@ import FirstForm from "./Product/CreateProductForm/FirstForm";
 import SecondForm from "./Product/CreateProductForm/SecondForm";
 import ThirdForm from "./Product/CreateProductForm/ThirdForm";
 import ForthForm from "./Product/CreateProductForm/ForthForm";
-import FifthForm from "./Product/CreateProductForm/FifthForm";
 import RootForm from "./Product/CreateProductForm/RootForm";
 
 const router = createBrowserRouter([
@@ -33,26 +32,6 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <Dashboard />,
   },
-  // {
-  //   path: "/firstform",
-  //   element: <FirstForm />,
-  // },
-  // {
-  //   path: "/secondform",
-  //   element: <SecondForm />,
-  // },
-  // {
-  //   path: "/thirdform",
-  //   element: <ThirdForm />,
-  // },
-  // {
-  //   path: "/forthform",
-  //   element: <ForthForm />,
-  // },
-  // {
-  //   path: "/fifthform",
-  //   element: <FifthForm />,
-  // },
   {
     path: "/rootform",
     element: <RootForm />,

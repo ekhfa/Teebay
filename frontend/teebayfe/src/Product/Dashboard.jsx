@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Group, Container, Text, Title } from '@mantine/core';
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const buttonStyle = {
@@ -26,9 +27,11 @@ function Dashboard() {
       >
         My Products! 
       </Title>
+       <NavLink to="/rootform">
         <Button size="sm" variant="light" style={buttonStyle}>
           Add Product
         </Button>
+        </NavLink>
         <Group style={logoutButtonStyle}>
           <Button size="sm" variant="light">
             LOGOUT

@@ -26,14 +26,8 @@ function FirstForm({ formData, onChange, handleNext }) {
             style={{ marginBottom: '1rem' }}
           />
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button 
-              size="sm" 
-              variant="gradient" 
-              gradient={{ from: 'indigo', to: 'cyan' }} 
-              onClick={handleNext}
-            >
-              Next
-            </Button>
+          <Button size="sm"  style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}   onClick={handleNext}>
+           Next</Button>   
           </div>
         </div>
       </Center>

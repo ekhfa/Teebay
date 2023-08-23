@@ -4,7 +4,7 @@ import FirstForm from './FirstForm';
 import SecondForm from './SecondForm';
 import ThirdForm from './ThirdForm';
 import ForthForm from './ForthForm';
-import FifthForm from './FifthForm';
+import SummaryForm from './SummaryForm';
 
 function RootForm() {
       const [step, setStep] = useState(0);
@@ -18,12 +18,12 @@ function RootForm() {
         });
       
       const handleNext = () => {
-        console.log("handleNext called");
+        //console.log("handleNext called");
         setStep(step + 1);
       };
     
       const handleBack = () => {
-        console.log("handleBack called");
+        //console.log("handleBack called");
         setStep(step - 1);
       };
 
@@ -37,7 +37,7 @@ function RootForm() {
       };
 
   const renderStep = () => {
-    console.log("Rendering step:", step);
+    //console.log("Rendering step:", step);
     switch (step) {
       case 0:
         return <FirstForm formData={formData} onChange={handleFormChange} handleNext={handleNext} />;
@@ -48,7 +48,7 @@ function RootForm() {
       case 3:
         return <ForthForm formData={formData} onChange={handleFormChange} handleNext={handleNext} handleBack={handleBack}/>;
       case 4:
-        return <FifthForm formData={formData} onBack={handleBack} onSubmit={handleSubmit}/>;
+        return <SummaryForm formData={formData} handleBack={handleBack} onSubmit={handleSubmit}/>;
       default:
         return null;
     }
