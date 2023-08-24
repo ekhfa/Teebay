@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Group, Container, Text, Title, Card } from '@mantine/core';
+import { createStyles,Button, Group, Container, Text, Title, Card, rem } from '@mantine/core';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 function AllProducts() {
+  
   const navigate = useNavigate();
 
   const cardContainerStyle = {

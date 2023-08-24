@@ -6,11 +6,15 @@ import {
   Box,
   Burger,
   Drawer,
+  Card,
   ScrollArea,
   rem,
+  Container,
+  Text,
+  Title
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -47,15 +51,46 @@ const useStyles = createStyles((theme) => ({
       display: 'none',
     },
   },
+  active: {
+    backgroundColor: 'white',
+    color: theme.colorScheme === 'dark' ? theme.black : theme.black,
+    // Add any other styling you want for the active link
+  },
 
 }));
 
 
-  function ProductHistory() {
-
+  function BorrowedProduct() {
+  const currentLocation = useLocation(); 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
+
+  const cardContainerStyle = {
+    display: 'grid',
+    gap: '20px',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    width: '90%',
+    margin: '20px',
+  };
+  const borrowedProducts = [
+    {
+      id: 1,
+      title: 'Borrowed Product 1',
+      description: 'This is the first borrowed product description.',
+    },
+    {
+      id: 2,
+      title: 'Borrowed Product 2',
+      description: 'This is the second borrowed product description.',
+    },
+  ];
+
+  const handleCardClick = (productId) => {
+    // Implement what should happen when a card is clicked,
+    console.log(`Card ${productId} clicked`);
+  };
+
 
   return (
     <Box pb={120}>
@@ -71,27 +106,27 @@ const useStyles = createStyles((theme) => ({
             to="/producthistory/bought"
             exact // Add this prop
             className={classes.link}
-          
+            
           >
             Bought 
           </NavLink>
           <NavLink
             to="/producthistory/sold"
             className={classes.link}
+            
           >
             Sold
           </NavLink>
           <NavLink
             to="/producthistory/borrowed"
-            className={classes.link}
-           
+            className={`${classes.link} ${currentLocation.pathname === '/producthistory/borrowed' ? 'active' : ''}`}
           >
             Borrowed
           </NavLink>
           <NavLink
             to="/producthistory/lent"
             className={classes.link}
-           
+            
           >
             Lent 
           </NavLink>
@@ -101,6 +136,38 @@ const useStyles = createStyles((theme) => ({
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
         </Group>
       </Header>
+
+      <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Container size="xl" style={{ paddingTop: '60px', flex: 1 }}>
+        <Title
+          align="center"
+          sx={(theme) => ({
+            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+            fontWeight: 900,
+          })}
+        >
+          Borrowed Products!
+        </Title>
+        <div style={{ ...cardContainerStyle, gridTemplateColumns: '1fr' }}>
+          {borrowedProducts.map((product) => (
+            <Card
+              key={product.id}
+              shadow="sm"
+              padding="lg"
+              style={{ cursor: 'pointer', marginBottom: '20px', backgroundColor: '#f0f0f0', display: 'flex', flexDirection: 'column' }} // Grey background color
+              onClick={() => handleCardClick(product.id)}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                <Text size="xl" style={{ marginBottom: '0.5rem' }}>
+                  {product.title}
+                </Text>
+                <Text>{product.description}</Text>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </Container>
+    </div>
 
       <Drawer
         opened={drawerOpened}
@@ -123,14 +190,14 @@ const useStyles = createStyles((theme) => ({
           <NavLink
             to="/producthistory/sold"
             className={classes.link}
-            
+           
           >
             Sold
           </NavLink>
           <NavLink
             to="/producthistory/borrowed"
             className={classes.link}
-           
+            
           >
             Borrowed
           </NavLink>
@@ -151,4 +218,4 @@ const useStyles = createStyles((theme) => ({
   );
 }
 
-export default ProductHistory;
+export default BorrowedProduct;
