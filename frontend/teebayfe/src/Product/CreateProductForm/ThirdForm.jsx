@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Textarea, Center, Group } from '@mantine/core';
 
-function ThirdForm({formData, onChange, handleBack, handleNext}) {
+function ThirdForm({ formData, onChange, handleBack, handleNext }) {
+  const [isValid, setIsValid] = useState(true);
 
-  console.log("Rendering ThirdForm with formData:", formData);
-  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    //console.log("handleInputChange called with:", name, value);
     onChange({ [name]: value });
+  };
+
+  const validateInput = () => {
+    if (!formData.productDescription || formData.productDescription.trim() === '') {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+      handleNext();
+    }
   };
   
   return (
@@ -17,15 +24,32 @@ function ThirdForm({formData, onChange, handleBack, handleNext}) {
         <div style={{ width: '100%', maxWidth: 450 }}>
           <Textarea
             name="productDescription"
+            value={formData.productDescription}
             onChange={handleInputChange}
-            placeholder="Product Descrption"
+            placeholder="Product Description"
             label="Select Description"
             withAsterisk
             style={{ marginBottom: '1rem' }}
           />
-        <Group style={{ marginTop: '1rem', justifyContent: 'space-between' }}>
-            <Button size="sm"  style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}  onClick={handleBack}> Back</Button>
-            <Button size="sm"  style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} onClick={handleNext}> Next</Button>           
+          <Group style={{ marginTop: '1rem', justifyContent: 'space-between' }}>
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={handleBack}
+            >
+              Back
+            </Button>
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={validateInput} 
+            >
+              Next
+            </Button>
           </Group>
         </div>
       </Center>

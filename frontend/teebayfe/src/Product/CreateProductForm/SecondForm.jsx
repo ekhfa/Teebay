@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
-import { Select, Center, Container, Group, Button } from '@mantine/core';
+import { Center, Container, Group, Button, MultiSelect } from '@mantine/core';
 
 const categoriesOptions = [
-    'ELECTRONICS', 'FURNITURE', 'HOME APPLIANCES', 'SPORTING GOODS', 'OUTDOOR'
-    
-  ];
+  { value: 'electronics', label: 'ELECTRONICS' },
+  { value: 'furniture', label: 'FURNITURE' },
+  { value: 'home appliances', label: 'HOME APPLIANCES' },
+  { value: 'sporting goods', label: 'SPORTING GOODS' },
+  { value: 'outdoor', label: 'OUTDOOR' },
+];
 
-function SecondForm({formData, onChange, handleBack, handleNext }) {
-
+function SecondForm({ formData, onChange, handleBack, handleNext }) {
   console.log("Rendering SecondForm with formData:", formData);
-  
+
+  const [selectedCategories, setSelectedCategories] = useState(formData.productCategories || []);
+  const isSelectionValid = selectedCategories.length > 0;
+
   const handleSelectChange = (selected) => {
-    const updatedCategories = [...formData.productCategories]; // Create a copy of the existing categories
-  
-    // Check if the selected category is already in the array
-    const categoryIndex = updatedCategories.indexOf(selected);
-    if (categoryIndex === -1) {
-      // If not found, add the selected category
-      updatedCategories.push(selected);
-    } else {
-      // If found, remove the selected category
-      updatedCategories.splice(categoryIndex, 1);
-    }
-  
-    onChange({ productCategories: updatedCategories }); // Update the state
+    setSelectedCategories(selected);
   };
-  
+
+  const handleNextWithValidation = () => {
+    if (isSelectionValid) {
+      onChange({ productCategories: selectedCategories });
+      handleNext();
+    }
+  };
+
   return (
     <Container size="xl" style={{ minHeight: '100vh' }}>
       <Center>
         <div style={{ width: '100%', maxWidth: 450 }}>
-          <Select
+          <MultiSelect
             name="productCategories"
-            value={formData.productCategories || []}
+            value={selectedCategories}
             onChange={handleSelectChange}
             style={{ width: '100%', marginTop: '8rem' }}
             label="Select Categories"
@@ -41,12 +41,27 @@ function SecondForm({formData, onChange, handleBack, handleNext }) {
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             multiple
             required
+            error={!isSelectionValid} // Highlight the multi-select if not valid
           />
           <Group style={{ marginTop: '1rem', justifyContent: 'space-between' }}>
-            <Button size="sm"  style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
-            onClick={handleBack}> Back</Button>
-            <Button size="sm"  style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
-            onClick={handleNext}> Next</Button>           
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={handleBack}
+            >
+              Back
+            </Button>
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={handleNextWithValidation} // Use handleNextWithValidation to check validity before proceeding
+            >
+              Next
+            </Button>
           </Group>
         </div>
       </Center>

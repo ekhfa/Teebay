@@ -5,7 +5,7 @@ import SecondForm from './SecondForm';
 import ThirdForm from './ThirdForm';
 import ForthForm from './ForthForm';
 import SummaryForm from './SummaryForm';
-import Dashboard from '../Dashboard';
+import Dashboard from '../MyProducts';
 import { useNavigate } from 'react-router-dom';
 
 function RootForm() {
@@ -36,7 +36,7 @@ function RootForm() {
     console.log("handleSubmit called");
     console.log("Current formData:", formData);
     setProducts([...products, formData]);
-    navigate('/dashboard'); // Navigate to the dashboard after updating products
+    navigate('/myproducts'); 
     
   };
   

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Container, TextInput, Center, Group, Select } from '@mantine/core';
 
 function ForthForm({ formData, onChange, handleBack, handleNext }) {
   console.log("Rendering ForthForm with formData:", formData);
+
+  const [isValid, setIsValid] = useState(true);
 
   const hourlyOptions = [
     { value: 'hour-1', label: '1 Hour' },
@@ -26,6 +28,15 @@ function ForthForm({ formData, onChange, handleBack, handleNext }) {
 
   const handleSelectChange = (selected) => {
     onChange({ productDays: selected });
+  };
+
+  const validateInputs = () => {
+    const { productPrice, productRent, productDays } = formData;
+    const areInputsValid = productPrice && productRent && productDays;
+    
+    if (areInputsValid) {
+      handleNext(); 
+    }
   };
 
   return (
@@ -66,12 +77,23 @@ function ForthForm({ formData, onChange, handleBack, handleNext }) {
             />
           </div>
           <Group style={{ marginTop: '1rem', justifyContent: 'space-between' }}>
-            <Button size="sm" style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} 
-            onClick={handleBack}>
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={handleBack}
+            >
               Back
             </Button>
-            <Button size="sm" style={{ flex: '0.2' }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
-             onClick={handleNext}>
+            <Button
+              size="sm"
+              style={{ flex: '0.2' }}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={validateInputs}
+              disabled={!isValid} // Disable the "Next" button if inputs are not valid
+            >
               Next
             </Button>
           </Group>
