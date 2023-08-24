@@ -13,9 +13,19 @@ import {
   Stack,
 } from "@mantine/core";
 import { NavLink, useNavigate } from "react-router-dom";
-import LoginPage from "./LoginPage"; 
+
 
 function SignupPage() {
+
+  const navigate = useNavigate();
+  const handleSignUp = () => {
+    // Perform signup logic here if needed
+
+    // After successful signup, navigate to the login page
+    navigate("/"); // Update the route according to your actual route
+  };
+
+
   return (
     <Container size={520} my={10}>
       <Title
@@ -57,7 +67,7 @@ function SignupPage() {
             defaultValue="secret"
           />
         </Stack>
-        <Button fullWidth mt="xl">
+        <Button fullWidth mt="xl" onClick={handleSignUp}>
           Sign Up
         </Button>
         <Text color="dimmed" size="sm" align="center" mt={5}>
@@ -66,7 +76,7 @@ function SignupPage() {
             size="sm"
             onClick={(event) => event.preventDefault()}
           >
-        <NavLink to="/login">
+        <NavLink to="/">
           Sign In 
         </NavLink>
           </Anchor>

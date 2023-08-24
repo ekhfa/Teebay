@@ -19,17 +19,7 @@ import {
     rem,
   } from '@mantine/core';
   import { useDisclosure } from '@mantine/hooks';
-  import {
-    IconNotification,
-    IconCode,
-    IconBook,
-    IconChartPie3,
-    IconFingerprint,
-    IconCoin,
-    IconChevronDown,
-  } from '@tabler/icons-react';
   import { NavLink, useNavigate } from "react-router-dom";
-  import Dashboard from '../Product/Dashboard';
   
   const useStyles = createStyles((theme) => ({
     link: {
@@ -76,7 +66,7 @@ import {
   
     return (
       <Box pb={120}>
-        <Header height={60} px="md">
+        <Header height={60} px="md"style={{ background: theme.colors.gray[3] }}>
           <Group position="apart" sx={{ height: '100%' }}>
           <Group position="apart" sx={{ alignItems: 'center' }}>
             <span className={classes.link}>
@@ -84,14 +74,14 @@ import {
             </span>
          </Group>
             <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
-              <a href="#" className={classes.link}>
-                Home
-              </a>
-              <a href="#" className={classes.link}>
-                Products
-              </a>
-              <NavLink to="/dashboard" className={classes.link}>
-              Dashboard
+            <NavLink to="/allproducts" className={classes.link}>
+              All Products
+            </NavLink>
+            <NavLink to="/myproducts" className={classes.link}>
+              My products
+            </NavLink>
+              <NavLink to="/producthistory" className={classes.link}>
+              My History
             </NavLink>
             </Group>
             <Group className={classes.hiddenMobile}>
@@ -113,14 +103,14 @@ import {
         >
           <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
             <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
-            <a href="#" className={classes.link}>
-            Home
-            </a>
-            <a href="#" className={classes.link}>
-            Products
-          </a>
-          <NavLink to="/dashboard" className={classes.link}>
-              Dashboard
+            <NavLink to="/allproducts" className={classes.link}>
+              All Products
+            </NavLink>
+            <NavLink to="/myproducts" className={classes.link}>
+              My products
+            </NavLink>
+              <NavLink to="/producthistory" className={classes.link}>
+              My History
             </NavLink>
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
             <Group position="center" grow pb="xl" px="md">
