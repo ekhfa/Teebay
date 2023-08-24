@@ -1,14 +1,29 @@
 import React from 'react';
 import { Button, Container, TextInput, Center, Group, Select } from '@mantine/core';
 
-function ForthForm({formData, onChange, handleBack, handleNext}) {
-  
+function ForthForm({ formData, onChange, handleBack, handleNext }) {
   console.log("Rendering ForthForm with formData:", formData);
-  const numberOptions = Array.from({ length: 10 }, (_, index) => ({ value: index + 1, label: (index + 1).toString() }));
+
+  const hourlyOptions = [
+    { value: 'hour-1', label: '1 Hour' },
+    { value: 'hour-2', label: '2 Hours' },
+    { value: 'hour-5', label: '5 Hours' },
+    { value: 'hour-12', label: '12 Hours' },
+  ];
+
+  const dailyOptions = [
+    { value: 'day-1', label: '1 Day' },
+    { value: 'day-2', label: '2 Days' },
+    { value: 'day-3', label: '3 Days' },
+    { value: 'day-5', label: '5 Days' },
+    { value: 'day-10', label: '10 Days' },
+  ];
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     onChange({ [name]: value });
   };
+
   const handleSelectChange = (selected) => {
     onChange({ productDays: selected });
   };
@@ -36,14 +51,14 @@ function ForthForm({formData, onChange, handleBack, handleNext}) {
               label="Select Rent Price"
               type="number"
               withAsterisk
-              style={{ width: '48%' }}
+              style={{ marginRight: '1rem' }}
             />
             <Select
               name="productDays"
               value={formData.productDays}
               onChange={handleSelectChange}
-              data={numberOptions}
-              label="Select Days"
+              data={[...hourlyOptions, ...dailyOptions]}
+              label="Select Rent"
               placeholder="Select"
               style={{ width: '100%' }}
               transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
