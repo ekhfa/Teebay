@@ -1,50 +1,52 @@
-import React, { useState } from 'react';
-import { Box, Button, Title, Container} from '@mantine/core';
+import React,  { useState, useEffect }from 'react';
+import { Container } from '@mantine/core';
 import FirstForm from './FirstForm';
 import SecondForm from './SecondForm';
 import ThirdForm from './ThirdForm';
 import ForthForm from './ForthForm';
 import SummaryForm from './SummaryForm';
 import Dashboard from '../Dashboard';
+import { useNavigate } from 'react-router-dom';
 
 function RootForm() {
-      const [products, setProducts] = useState([]);
-      const [step, setStep] = useState(0);
-      const [formData, setFormData] = useState({
-        productTitle: '',
-        productCategories: [],
-        productDescription: '',
-        productPrice: '',
-        productRent: '',
-        productDays: '',
-        });
-      
-      const handleNext = () => {
-        //console.log("handleNext called");
-        setStep(step + 1);
-      };
-    
-      const handleBack = () => {
-        //console.log("handleBack called");
-        setStep(step - 1);
-      };
+  const [products, setProducts] = useState([]);
+  const [step, setStep] = useState(0);
+  const navigate = useNavigate();
 
-      const handleSubmit = () => {
-        // Handle form submission
-        console.log("handleSubmit called");
-        //console.log(formData);
-        setProducts([...products, formData]);
-        console.log("Product: " ,products)
-      };
+  const [formData, setFormData] = useState({
+    productTitle: '',
+    productCategories: [],
+    productDescription: '',
+    productPrice: '',
+    productRent: '',
+    productDays: '',
+  });
 
-     
+  const handleNext = () => {
+    //console.log("handleNext called");
+    setStep(step + 1);
+  };
+
+  const handleBack = () => {
+    //console.log("handleBack called");
+    setStep(step - 1);
+  };
+
+  const handleSubmit = () => {
+    console.log("handleSubmit called");
+    console.log("Current formData:", formData);
+    setProducts([...products, formData]);
+    navigate('/dashboard'); // Navigate to the dashboard after updating products
     
-      const handleFormChange = (newData) => {
-        setFormData({ ...formData, ...newData });
-      };
+  };
+  
+  const handleFormChange = (newData) => {
+    setFormData({ ...formData, ...newData });
+  };
+
 
   const renderStep = () => {
-    //console.log("Rendering step:", step);
+     //console.log("Rendering step:", step);
     switch (step) {
       case 0:
         return <FirstForm formData={formData} onChange={handleFormChange} handleNext={handleNext} />;
@@ -59,11 +61,11 @@ function RootForm() {
       default:
         return null;
     }
-};
+  };
 
-return (
+  return (
     <Container size="md">
-      {renderStep()}
+       {renderStep()}
     </Container>
   );
 }
