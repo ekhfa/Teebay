@@ -47,7 +47,7 @@ function SignupPage() {
 
       //console.log("User Data Saved");
 
-      if (response.status == 200 || response.status == 201) {
+      if (response.status == 200) {
         //console.log("Navigating to next page");
         navigate("/");
       }
