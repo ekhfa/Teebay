@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique //email will be unique
+  id         Int       @id @default(autoincrement())
+  email      String    @unique //email will be unique
   first_name String
   last_name  String? //Here ? means nullable
   address    String?
   phone      String?
   password   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+  owner      Product[] @relation("owner") //one-many with Product
+  buyer      Product[] @relation("buyer") //one-many with Product
 }
 
 model Product {
@@ -34,4 +36,8 @@ model Product {
   status      String?  @default("available")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  owner       User     @relation("owner", fields: [owner_id], references: [id]) //belongs to owner
+  owner_id    Int
+  buyer       User?    @relation("buyer", fields: [buyer_id], references: [id]) //belongs to buyer
+  buyer_id    Int?
 }
