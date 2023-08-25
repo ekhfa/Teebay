@@ -54,8 +54,15 @@ app.get("/login", async (req, res) => {
 //For creating a product
 app.post("/product/create", async (req, res) => {
   try {
-    const { title, categories, description, price, rent_price, rent_period } =
-      req.body;
+    const {
+      title,
+      categories,
+      description,
+      price,
+      rent_price,
+      rent_period,
+      owner_id,
+    } = req.body;
 
     const product = await prisma.product.create({
       data: {
@@ -65,10 +72,44 @@ app.post("/product/create", async (req, res) => {
         price,
         rent_price,
         rent_period,
+        owner: {
+          connect: {
+            id: owner_id,
+          },
+        },
       },
     });
 
     res.status(201).send(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For updating a product
+app.put("/product/update/:id", async (req, res) => {
+  try {
+    const product = await prisma.product.update({
+      where: { id: parseInt(req.params.id) },
+      data: req.body,
+    });
+
+    res.status(200).send(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For deleting a product
+app.delete("/product/delete/:id", async (req, res) => {
+  try {
+    const product = await prisma.product.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+
+    res.status(200).send("deleted");
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
