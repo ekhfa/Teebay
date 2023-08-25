@@ -51,17 +51,16 @@ const useStyles = createStyles((theme) => ({
       display: 'none',
     },
   },
+
   active: {
-    backgroundColor: 'white',
-    color: theme.colorScheme === 'dark' ? theme.black : theme.black,
-    // Add any other styling you want for the active link
-  },
+  color: 'red',
+}
 
 }));
 
 
   function BorrowedProduct() {
-  const currentLocation = useLocation(); 
+  const location = useLocation(); 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
@@ -73,6 +72,7 @@ const useStyles = createStyles((theme) => ({
     width: '90%',
     margin: '20px',
   };
+
   const borrowedProducts = [
     {
       id: 1,
@@ -103,30 +103,28 @@ const useStyles = createStyles((theme) => ({
           </Group>
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
           <NavLink
-            to="/producthistory/bought"
-            exact // Add this prop
-            className={classes.link}
-            
+            to="/bought"
+             className={`${classes.link} ${location.pathname === "/bought" ? classes.active : ""}`}
+           // className={classes.link}   
           >
             Bought 
           </NavLink>
           <NavLink
-            to="/producthistory/sold"
-            className={classes.link}
+            to="/sold"
+             className={`${classes.link} ${location.pathname === "/sold" ? classes.active : ""}`}
             
           >
             Sold
           </NavLink>
           <NavLink
-            to="/producthistory/borrowed"
-            className={`${classes.link} ${currentLocation.pathname === '/producthistory/borrowed' ? 'active' : ''}`}
+            to="/borrowed"
+            className={`${classes.link} ${location.pathname === "/borrowed" ? classes.active : ""}`}
           >
             Borrowed
           </NavLink>
           <NavLink
-            to="/producthistory/lent"
-            className={classes.link}
-            
+            to="/lent"
+            className={`${classes.link} ${location.pathname === "/lent" ? classes.active : ""}`}
           >
             Lent 
           </NavLink>
@@ -181,30 +179,28 @@ const useStyles = createStyles((theme) => ({
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
           <NavLink
-            to="/producthistory/bought"
-            exact // Add this prop
-            className={classes.link}
+            to="/bought"
+           className={`${classes.link} ${location.pathname === "/bought" ? classes.active : ""}`}
           >
             Bought 
           </NavLink>
           <NavLink
-            to="/producthistory/sold"
-            className={classes.link}
+            to="/sold"
+          className={`${classes.link} ${location.pathname === "/sold" ? classes.active : ""}`}
            
           >
             Sold
           </NavLink>
           <NavLink
-            to="/producthistory/borrowed"
-            className={classes.link}
+            to="/borrowed"
+           className={`${classes.link} ${location.pathname === "/borrowed" ? classes.active : ""}`}
             
           >
             Borrowed
           </NavLink>
           <NavLink
-            to="/producthistory/lent"
-            className={classes.link}
-           
+            to="/lent"
+            className={`${classes.link} ${location.pathname === "/lent" ? classes.active : ""}`}
           >
             Lent 
           </NavLink>
