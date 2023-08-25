@@ -63,7 +63,7 @@ app.post("/login", async (req, res) => {
 //For creating a product
 app.post("/product/create", async (req, res) => {
   try {
-    const {
+    let {
       title,
       categories,
       description,
@@ -72,6 +72,9 @@ app.post("/product/create", async (req, res) => {
       rent_period,
       owner_id,
     } = req.body;
+
+    price = parseFloat(price);
+    rent_price = parseFloat(rent_price);
 
     const product = await prisma.product.create({
       data: {
