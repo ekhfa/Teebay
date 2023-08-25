@@ -30,5 +30,26 @@ app.post("/registration", async (req, res) => {
   }
 });
 
+//For User Login
+app.get("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await prisma.user.findFirst({
+      where: { email: email },
+    });
+
+    //Matching Requested Password with DB.
+    if (user.password == password) {
+      res.status(200).send("ok");
+    } else {
+      res.status(401).send("invalid");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
