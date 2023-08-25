@@ -74,13 +74,13 @@ import {
             </span>
          </Group>
             <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
-            <NavLink to="/navbar/allproducts" className={classes.link}>
+            <NavLink to="/allproducts" className={classes.link}>
               All Products
             </NavLink>
-            <NavLink to="/navbar/myproducts" className={classes.link}>
+            <NavLink to="/myproducts" className={classes.link}>
               My products
             </NavLink>
-              <NavLink to="/navbar/producthistory" className={classes.link}>
+              <NavLink to="/bought" className={classes.link}>
               My History
             </NavLink>
             </Group>
@@ -103,13 +103,13 @@ import {
         >
           <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
             <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
-            <NavLink to="/navbar/allproducts" className={classes.link}>
+            <NavLink to="/allproducts" className={classes.link}>
               All Products
             </NavLink>
-            <NavLink to="/navbar/myproducts" className={classes.link}>
+            <NavLink to="/myproducts" className={classes.link}>
               My products
             </NavLink>
-              <NavLink to="/navbar/producthistory" className={classes.link}>
+              <NavLink to="/bought" className={classes.link}>
               My History
             </NavLink>
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />

@@ -6,7 +6,6 @@ import SignupPage from "./User/SignupPage";
 import Navbar from "./Components/Navbar";
 import MyProducts from "./Product/MyProducts";
 import RootForm from "./Product/CreateProductForm/RootForm";
-import ProductHistory from "./Product/ProductHistory";
 import AllProducts from "./Product/AllProducts";
 import BorrowedProduct from "./Product/BorrowedProduct";
 import BoughtProduct from "./Product/BoughtProduct";
@@ -31,31 +30,27 @@ const router = createBrowserRouter([
     element: <RootForm />,
   },
   {
-    path: "/navbar/myproducts",
+    path: "/myproducts",
     element: <MyProducts />,
   },
   {
-    path: "/navbar/allproducts",
+    path: "/allproducts",
     element: <AllProducts />,
   },
   {
-    path: "/navbar/producthistory",
-    element: <ProductHistory />,
-  },
-  {
-    path: "/producthistory/borrowed",
+    path: "/borrowed",
     element: <BorrowedProduct />,
   },
   {
-    path: "/producthistory/bought",
+    path: "/bought",
     element: <BoughtProduct />,
   },
   {
-    path: "/producthistory/sold",
+    path: "/sold",
     element: <SoldProduct />,
   },
   {
-    path: "/producthistory/lent",
+    path: "/lent",
     element: <LentProduct />,
   },
 ]);
