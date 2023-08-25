@@ -51,5 +51,29 @@ app.get("/login", async (req, res) => {
   }
 });
 
+//For creating a product
+app.post("/product/create", async (req, res) => {
+  try {
+    const { title, categories, description, price, rent_price, rent_period } =
+      req.body;
+
+    const product = await prisma.product.create({
+      data: {
+        title,
+        categories,
+        description,
+        price,
+        rent_price,
+        rent_period,
+      },
+    });
+
+    res.status(201).send(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 const PORT = process.env.PORT || 9090;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
