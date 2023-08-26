@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   createStyles,
   Button,
@@ -12,6 +12,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 
 function AllProducts() {
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   const cardContainerStyle = {
@@ -22,38 +23,24 @@ function AllProducts() {
     margin: "20px",
   };
 
-  const products = [
-    {
-      id: 1,
-      title: "Product 1",
-      description:
-        "This is the first product description..this is a product description.this is a product description .this is a product descriptionthis is a product description. this is a product description aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      price: 100,
-      rent: 23,
-      status: "sold", // Add the status property
-    },
-    {
-      id: 2,
-      title: "Product 2",
-      description: "This is the second product description.",
-      price: 100,
-      rent: 23,
-      status: "bought", // Add the status property
-    },
-    {
-      id: 3,
-      title: "Product 3",
-      description: "This is the third product description.",
-      price: 100,
-      rent: 23,
-      status: "rent",
-    },
-  ];
+  useEffect(() => {
+    // Fetch products from the backend API
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`http://localhost:9090/products`);
+        const products = await response.json();
 
-  const handleCardClick = (productId) => {
-    // Implement what should happen when a card is clicked,
-    console.log(`Card ${productId} clicked`);
-    navigate("/singleproductpage");
+        console.log("Here Products", products);
+        setProducts(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleCardClick = (id) => {
+    navigate(`/products/${id}`);
   };
 
   return (
@@ -93,7 +80,6 @@ function AllProducts() {
               }} // Grey background color
               onClick={() => handleCardClick(product.id)}
             >
-              {/* Status tag */}
               <div
                 style={{
                   alignSelf: "flex-end",
@@ -101,14 +87,14 @@ function AllProducts() {
                   marginRight: "0.5rem",
                 }}
               >
-                {product.status === "sold" && (
+                {product.status === "bought" && (
                   <span style={{ color: "red" }}>Sold</span>
                 )}
-                {product.status === "bought" && (
-                  <span style={{ color: "blue" }}>Bought</span>
+                {product.status === "rented" && (
+                  <span style={{ color: "blue" }}>On Rent</span>
                 )}
-                {product.status === "rent" && (
-                  <span style={{ color: "green" }}>Rent</span>
+                {product.status === "available" && (
+                  <span style={{ color: "green" }}>Available</span>
                 )}
               </div>
 
@@ -124,7 +110,7 @@ function AllProducts() {
                 </Text>
                 <Text>{product.description}</Text>
                 <Text>{product.price}</Text>
-                <Text>{product.rent}</Text>
+                <Text>{product.rent_price}</Text>
               </div>
             </Card>
           ))}

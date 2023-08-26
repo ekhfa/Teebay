@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   createStyles,
   Button,
@@ -9,10 +10,13 @@ import {
   Card,
   rem,
 } from "@mantine/core";
-import { NavLink, useNavigate } from "react-router-dom";
 
 function SingleProductPage() {
+  const [product, setProduct] = useState(null);
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  console.log("ID:", id);
 
   const cardContainerStyle = {
     display: "grid",
@@ -22,17 +26,26 @@ function SingleProductPage() {
     margin: "20px",
   };
 
-  const products = [
-    {
-      id: 1,
-      title: "Product 1",
-      description: "This is the first product description.",
-      price: 100,
-      rent: 23,
-      status: "sold",
-    },
-  ];
+  useEffect(() => {
+    // Fetch products from the backend API
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`http://localhost:9090/product/${id}`);
+        const product = await response.json();
 
+        console.log("Here Product", product);
+        setProduct(product);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, [id]);
+
+  if (product === null) {
+    return <div>Loading...</div>;
+  }
   return (
     <div
       style={{
@@ -54,40 +67,38 @@ function SingleProductPage() {
           Single Product!
         </Title>
         <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              shadow="sm"
-              padding="lg"
+          <Card
+            key={product.id}
+            shadow="sm"
+            padding="lg"
+            style={{
+              cursor: "pointer",
+              marginBottom: "20px",
+              backgroundColor: "#f0f0f0",
+              display: "flex",
+              flexDirection: "column",
+              width: "600px",
+              height: "300px",
+            }} // Grey background color
+          >
+            {/* Status tag */}
+            {/* ... (product status code) */}
+
+            <div
               style={{
-                cursor: "pointer",
-                marginBottom: "20px",
-                backgroundColor: "#f0f0f0",
                 display: "flex",
                 flexDirection: "column",
-                width: "600px",
-                height: "300px",
-              }} // Grey background color
+                flexGrow: 1,
+              }}
             >
-              {/* Status tag */}
-              {/* ... (product status code) */}
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  flexGrow: 1,
-                }}
-              >
-                <Text size="xl" style={{ marginBottom: "0.5rem" }}>
-                  {product.title}
-                </Text>
-                <Text>{product.description}</Text>
-                <Text>{product.price}</Text>
-                <Text>{product.rent}</Text>
-              </div>
-            </Card>
-          ))}
+              <Text size="xl" style={{ marginBottom: "0.5rem" }}>
+                {product.title}
+              </Text>
+              <Text>{product.description}</Text>
+              <Text>{product.price}</Text>
+              <Text>{product.rent}</Text>
+            </div>
+          </Card>
         </div>
 
         {/* Buttons for Rent and Buy */}
