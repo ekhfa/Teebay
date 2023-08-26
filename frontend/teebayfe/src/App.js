@@ -11,6 +11,7 @@ import BorrowedProduct from "./Product/BorrowedProduct";
 import BoughtProduct from "./Product/BoughtProduct";
 import SoldProduct from "./Product/SoldProduct";
 import LentProduct from "./Product/LentProduct";
+import SingleproductPage from "./Product/SingleProductPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/allproducts",
     element: <AllProducts />,
+  },
+  {
+    path: "/singleproductpage",
+    element: <SingleproductPage />,
   },
   {
     path: "/borrowed",

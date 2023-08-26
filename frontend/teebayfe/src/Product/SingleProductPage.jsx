@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { NavLink, useNavigate } from "react-router-dom";
 
-function AllProducts() {
+function SingleProductPage() {
   const navigate = useNavigate();
 
   const cardContainerStyle = {
@@ -26,35 +26,12 @@ function AllProducts() {
     {
       id: 1,
       title: "Product 1",
-      description:
-        "This is the first product description..this is a product description.this is a product description .this is a product descriptionthis is a product description. this is a product description aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      description: "This is the first product description.",
       price: 100,
       rent: 23,
-      status: "sold", // Add the status property
-    },
-    {
-      id: 2,
-      title: "Product 2",
-      description: "This is the second product description.",
-      price: 100,
-      rent: 23,
-      status: "bought", // Add the status property
-    },
-    {
-      id: 3,
-      title: "Product 3",
-      description: "This is the third product description.",
-      price: 100,
-      rent: 23,
-      status: "rent",
+      status: "sold",
     },
   ];
-
-  const handleCardClick = (productId) => {
-    // Implement what should happen when a card is clicked,
-    console.log(`Card ${productId} clicked`);
-    navigate("/singleproductpage");
-  };
 
   return (
     <div
@@ -74,7 +51,7 @@ function AllProducts() {
             fontWeight: 900,
           })}
         >
-          All Products!
+          Single Product!
         </Title>
         <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
           {products.map((product) => (
@@ -91,26 +68,9 @@ function AllProducts() {
                 width: "500px",
                 height: "300px",
               }} // Grey background color
-              onClick={() => handleCardClick(product.id)}
             >
               {/* Status tag */}
-              <div
-                style={{
-                  alignSelf: "flex-end",
-                  marginTop: "0.2 rem",
-                  marginRight: "0.5rem",
-                }}
-              >
-                {product.status === "sold" && (
-                  <span style={{ color: "red" }}>Sold</span>
-                )}
-                {product.status === "bought" && (
-                  <span style={{ color: "blue" }}>Bought</span>
-                )}
-                {product.status === "rent" && (
-                  <span style={{ color: "green" }}>Rent</span>
-                )}
-              </div>
+              {/* ... (product status code) */}
 
               <div
                 style={{
@@ -129,9 +89,29 @@ function AllProducts() {
             </Card>
           ))}
         </div>
+
+        {/* Buttons for Rent and Buy */}
+        <Group style={{ marginTop: "1rem", justifyContent: "space-between" }}>
+          <Button
+            size="sm"
+            style={{ flex: "0.2" }}
+            variant="gradient"
+            gradient={{ from: "indigo", to: "cyan" }}
+          >
+            Rent
+          </Button>
+          <Button
+            size="sm"
+            style={{ flex: "0.2" }}
+            variant="gradient"
+            gradient={{ from: "indigo", to: "cyan" }}
+          >
+            Buy
+          </Button>
+        </Group>
       </Container>
     </div>
   );
 }
 
-export default AllProducts;
+export default SingleProductPage;
