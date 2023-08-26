@@ -44,15 +44,20 @@ app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await prisma.user.findFirst({
+    const userData = await prisma.user.findFirst({
       where: { email: email },
     });
 
-    //Matching Requested Password with DB.
-    if (user.password == password) {
-      res.status(200).send("ok");
+    let user = {
+      user_id: userData.id,
+      user_name: userData.first_name,
+      user_email: userData.email,
+    };
+
+    if (userData.password == password) {
+      res.status(200).send(user);
     } else {
-      res.status(401).send("invalid");
+      res.status(401).send({ msg: "invalid", body: req.body });
     }
   } catch (error) {
     console.log(error);
@@ -122,6 +127,32 @@ app.delete("/product/delete/:id", async (req, res) => {
     });
 
     res.status(200).send("deleted");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all the products
+app.get("/products", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({});
+
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all the products by User
+app.get("/products/user/:id", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { owner_id: parseInt(req.params.id) },
+    });
+
+    res.status(200).send(products);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
