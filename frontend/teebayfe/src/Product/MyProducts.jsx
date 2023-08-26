@@ -34,6 +34,7 @@ function MyProducts() {
     width: "90%",
     margin: "20px",
   };
+
   let userData = JSON.parse(localStorage.getItem("user"));
   console.log(userData);
 
@@ -59,6 +60,29 @@ function MyProducts() {
   const handleCardClick = (id) => {
     navigate(`/editproducts/${id}`);
   };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:9090/product/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== id)
+        );
+      } else {
+        console.error("Failed to delete product");
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  // ... (rest of the code)
 
   return (
     <div
@@ -128,8 +152,8 @@ function MyProducts() {
                   top: "10px",
                 }}
                 onClick={(e) => {
-                  e.stopPropagation(); // Prevent card click event
-                  console.log(`Delete ${product.id}`);
+                  e.stopPropagation(); // Prevent event propagation
+                  handleDelete(product.id);
                 }}
               >
                 <FaTrash />
