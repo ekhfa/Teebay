@@ -14,18 +14,18 @@ function ForthForm({ formData, onChange, handleBack, handleNext }) {
   const [isValid, setIsValid] = useState(true);
 
   const hourlyOptions = [
-    { value: "hour-1", label: "1 Hour" },
-    { value: "hour-2", label: "2 Hours" },
-    { value: "hour-5", label: "5 Hours" },
-    { value: "hour-12", label: "12 Hours" },
+    { value: "hour", label: "1 Hour" },
+    { value: "2 hours", label: "2 Hours" },
+    { value: "5 hours", label: "5 Hours" },
+    { value: "12 hours", label: "12 Hours" },
   ];
 
   const dailyOptions = [
-    { value: "day-1", label: "1 Day" },
-    { value: "day-2", label: "2 Days" },
-    { value: "day-3", label: "3 Days" },
-    { value: "day-5", label: "5 Days" },
-    { value: "day-10", label: "10 Days" },
+    { value: "day", label: "1 Day" },
+    { value: "2 days", label: "2 Days" },
+    { value: "3 days", label: "3 Days" },
+    { value: "4 days", label: "5 Days" },
+    { value: "10 days", label: "10 Days" },
   ];
 
   const handleInputChange = (event) => {

@@ -28,6 +28,10 @@ function LoginPage() {
 
       if (response.status == 200) {
         console.log("Logged in successfully");
+
+        //store the user in localStorage
+        localStorage.setItem("user", JSON.stringify(response.data));
+
         navigate("/navbar");
       } else {
         console.log("Login failed");

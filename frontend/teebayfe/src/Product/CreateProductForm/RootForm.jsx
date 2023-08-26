@@ -34,12 +34,19 @@ function RootForm() {
   };
 
   const handleSubmit = async () => {
+    //getting userdata from local storage
+    let userData = JSON.parse(localStorage.getItem("user"));
+    //console.log(userData);
+
+    formData["owner_id"] = userData.user_id;
+    console.log("formDataTesting", formData);
+
     try {
       const response = await axios.post(
         "http://localhost:9090/product/create",
         formData
       );
-      console.log("Product submitted:", response.data);
+      //console.log("Product submitted:", response.data);
       setProducts([...products, response.data]);
       navigate("/myproducts");
     } catch (error) {

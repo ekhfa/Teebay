@@ -33,7 +33,7 @@ function SingleProductPage() {
         const response = await fetch(`http://localhost:9090/product/${id}`);
         const product = await response.json();
 
-        console.log("Here Product", product);
+        // console.log("Here Product", product);
         setProduct(product);
       } catch (error) {
         console.error("Error fetching products:", error);

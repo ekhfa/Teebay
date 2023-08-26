@@ -1,63 +1,76 @@
-import React from 'react';
-import { Button, Group, Container, Text, Title, Card, ActionIcon } from '@mantine/core';
-import { FaTrash } from 'react-icons/fa';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Group,
+  Container,
+  Text,
+  Title,
+  Card,
+  ActionIcon,
+} from "@mantine/core";
+import { FaTrash } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function MyProducts() {
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   const buttonStyle = {
-    position: 'absolute',
-    top: '20px',
-    left: '30px',
+    position: "absolute",
+    top: "20px",
+    left: "30px",
   };
 
   const logoutButtonStyle = {
-    position: 'absolute',
-    top: '20px',
-    right: '30px',
+    position: "absolute",
+    top: "20px",
+    right: "30px",
   };
 
   const cardContainerStyle = {
-    display: 'grid',
-    gap: '20px',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    width: '90%',
-    margin: '20px',
+    display: "grid",
+    gap: "20px",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    width: "90%",
+    margin: "20px",
   };
+  let userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData);
 
-  const products = [
-    {
-      id: 1,
-      title: 'Product 1',
-      description: 'This is the first product description.',
-      price: 100,
-      rent: 23,
-    },
-    {
-      id: 2,
-      title: 'Product 2',
-      description: 'This is the second product description.',
-      price: 100,
-      rent: 23,
-    },
-    {
-      id: 3,
-      title: 'Product 3',
-      description: 'This is the third product description.',
-      price: 100,
-      rent: 23,
-    },
-  ];
+  useEffect(() => {
+    // Fetch products from the backend API
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:9090/products/user/${userData.user_id}`
+        );
+        const products = await response.json();
 
-  const handleCardClick = (productId) => {
-    // Implement what should happen when a card is clicked, e.g., show a modal or navigate to a different page
-    console.log(`Card ${productId} clicked`);
+        console.log("Here Products", products);
+        setProducts(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handleCardClick = (id) => {
+    navigate(`/editproducts/${id}`);
   };
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Container size="xl" style={{ paddingTop: '60px', flex: 1 }}>
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Container size="xl" style={{ paddingTop: "60px", flex: 1 }}>
         <Title
           align="center"
           sx={(theme) => ({
@@ -77,42 +90,49 @@ function MyProducts() {
             LOGOUT
           </Button>
         </Group>
-        <div style={{ ...cardContainerStyle, gridTemplateColumns: '1fr' }}>
+        <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
           {products.map((product) => (
             <Card
               key={product.id}
               shadow="sm"
               padding="lg"
-              style={{ cursor: 'pointer', marginBottom: '20px', backgroundColor: '#f0f0f0' }} // Grey background color
+              style={{
+                cursor: "pointer",
+                marginBottom: "20px",
+                backgroundColor: "#f0f0f0",
+              }} // Grey background color
               onClick={() => handleCardClick(product.id)}
             >
-              <Text size="xl" style={{ marginBottom: '0.5rem' }}>
-                    {product.title}
+              <Text size="xl" style={{ marginBottom: "0.5rem" }}>
+                {product.title}
               </Text>
+              <Text>Categories: {product.categories}</Text>
               <Text>{product.description}</Text>
-              <Text>{product.price}</Text>
-              <Text>{product.rent}</Text>
+              <Text>
+                Price: {product.price} | Rent: {product.rent_price} {" Per "}
+                {product.rent_period}
+              </Text>
               <ActionIcon
                 position="absolute"
                 right="10px"
                 top="10px"
                 size="md"
                 style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                outline: 'none',
-                padding: 0,
-                cursor: 'pointer',
-                position: 'absolute',
-                right: '10px',
-                top: '10px',
+                  backgroundColor: "transparent",
+                  border: "none",
+                  outline: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  position: "absolute",
+                  right: "10px",
+                  top: "10px",
                 }}
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent card click event
                   console.log(`Delete ${product.id}`);
                 }}
               >
-               <FaTrash />
+                <FaTrash />
               </ActionIcon>
             </Card>
           ))}
