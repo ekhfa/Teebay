@@ -107,9 +107,23 @@ app.post("/product/create", async (req, res) => {
 //For updating a product
 app.put("/product/update/:id", async (req, res) => {
   try {
+    let { title, categories, description, price, rent_price, rent_period } =
+      req.body;
+
+    //Parsing to avoid type errors
+    price = parseFloat(price);
+    rent_price = parseFloat(rent_price);
+
     const product = await prisma.product.update({
       where: { id: parseInt(req.params.id) },
-      data: req.body,
+      data: {
+        title,
+        categories,
+        description,
+        price,
+        rent_price,
+        rent_period,
+      },
     });
 
     res.status(200).send(product);
@@ -153,6 +167,162 @@ app.get("/products/user/:id", async (req, res) => {
     });
 
     res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting a single product
+app.get("/product/:id", async (req, res) => {
+  try {
+    const product = await prisma.product.findFirst({
+      where: { id: parseInt(req.params.id) },
+    });
+
+    //increasing post view
+    let view = product.views + 1;
+
+    //updating the view count
+    const updatedProduct = await prisma.product.update({
+      where: { id: parseInt(req.params.id) },
+      data: {
+        views: view,
+      },
+    });
+
+    res.status(200).send(updatedProduct);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all the products by User
+app.get("/products/user/:id", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { owner_id: parseInt(req.params.id) },
+    });
+
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all sold products of a User
+app.get("/sold-products/user/:id", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { owner_id: parseInt(req.params.id), status: "bought" },
+    });
+
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all bought products of a User
+app.get("/bought-products/user/:id", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { buyer_id: parseInt(req.params.id) },
+    });
+
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all lent products of a User
+app.get("/lent-products/user/:id", async (req, res) => {
+  try {
+    const products = await prisma.product.findMany({
+      where: { owner_id: parseInt(req.params.id), status: "rented" },
+    });
+
+    res.status(200).send(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For getting all rented products of a User
+app.get("/rented-products/user/:id", async (req, res) => {
+  try {
+    const rentals = await prisma.rentals.findMany({
+      where: { renter_id: parseInt(req.params.id) },
+      include: {
+        product: true, //eager loading products
+      },
+    });
+
+    res.status(200).send(rentals);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For buying a product
+app.post("/buy/product/:id", async (req, res) => {
+  try {
+    const product = await prisma.product.update({
+      where: { id: parseInt(req.params.id) },
+      data: {
+        status: "bought",
+        buyer: {
+          connect: {
+            id: req.body.buyer_id,
+          },
+        },
+      },
+    });
+
+    res.status(200).send(product);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//For renting a product
+app.post("/rent/product/:id", async (req, res) => {
+  try {
+    const product_id = parseInt(req.params.id);
+
+    const product = await prisma.product.update({
+      where: { id: product_id },
+      data: {
+        status: "rented",
+      },
+    });
+
+    const rental = await prisma.rentals.create({
+      data: {
+        rent_from: req.body.rent_from,
+        rent_to: req.body.rent_to,
+        product: {
+          connect: {
+            id: product_id,
+          },
+        },
+        renter: {
+          connect: {
+            id: parseInt(req.body.renter_id),
+          },
+        },
+      },
+    });
+
+    res.status(200).send({ product: product, rental: rental });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
