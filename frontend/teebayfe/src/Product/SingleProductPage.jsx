@@ -65,7 +65,7 @@ function SingleProductPage() {
                 backgroundColor: "#f0f0f0",
                 display: "flex",
                 flexDirection: "column",
-                width: "500px",
+                width: "600px",
                 height: "300px",
               }} // Grey background color
             >
