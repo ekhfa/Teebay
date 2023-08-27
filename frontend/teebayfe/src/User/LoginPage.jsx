@@ -32,7 +32,7 @@ function LoginPage() {
         //store the user in localStorage
         localStorage.setItem("user", JSON.stringify(response.data));
 
-        navigate("/navbar");
+        navigate("/allproducts");
       } else {
         console.log("Login failed");
       }
