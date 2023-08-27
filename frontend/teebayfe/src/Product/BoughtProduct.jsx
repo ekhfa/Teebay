@@ -14,6 +14,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -67,6 +68,8 @@ function BoughtProduct() {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
+  const [boughtProducts, setBoughtProducts] = useState([]);
+
   const cardContainerStyle = {
     display: "grid",
     gap: "20px",
@@ -75,24 +78,24 @@ function BoughtProduct() {
     margin: "20px",
   };
 
-  const boughtProducts = [
-    {
-      id: 1,
-      title: "Bought Product 1",
-      description: "This is the first bought product description.",
-    },
-    {
-      id: 2,
-      title: "Bought Product 2",
-      description: "This is the second bought product description.",
-    },
-  ];
+  let userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData.user_id);
 
-  const handleCardClick = (productId) => {
-    // Implement what should happen when a card is clicked,
-    console.log(`Card ${productId} clicked`);
-  };
+  useEffect(() => {
+    const fetchBoughtProducts = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:9090/bought-products/user/${userData.user_id}`
+        );
+        const boughtProductsData = await response.json();
+        setBoughtProducts(boughtProductsData);
+      } catch (error) {
+        console.log("Error Fetching Bought Products", error);
+      }
+    };
 
+    fetchBoughtProducts();
+  }, [userData.user_id]);
   return (
     <Box pb={120}>
       <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
@@ -182,8 +185,7 @@ function BoughtProduct() {
                   backgroundColor: "#f0f0f0",
                   display: "flex",
                   flexDirection: "column",
-                }} // Grey background color
-                onClick={() => handleCardClick(product.id)}
+                }}
               >
                 <div
                   style={{
