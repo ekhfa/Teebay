@@ -82,8 +82,6 @@ function MyProducts() {
     }
   };
 
-  // ... (rest of the code)
-
   return (
     <div
       style={{

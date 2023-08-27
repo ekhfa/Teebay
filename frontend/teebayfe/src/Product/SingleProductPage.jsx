@@ -14,17 +14,51 @@ function SingleProductPage() {
   const [product, setProduct] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [confirmedPurchase, setConfirmedPurchase] = useState(false);
+  const [isProductPurchased, setIsProductPurchased] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
 
   const handleBuyClick = () => {
-    setShowDialog(true);
+    if (userData.user_id === product.owner_id) {
+    } else {
+      setShowDialog(true);
+    }
   };
 
-  const handleConfirmBuy = () => {
-    setConfirmedPurchase(true);
-    setShowDialog(false);
+  let userData = JSON.parse(localStorage.getItem("user"));
+  //console.log("userId: ", userData.user_id);
+
+  const handleConfirmBuy = async () => {
+    try {
+      const response = await fetch(`http://localhost:9090/buy/product/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          buyer_id: userData.user_id,
+        }),
+      });
+
+      //console.log(buyer_id);
+      if (response.ok) {
+        const updatedProduct = await response.json();
+        setConfirmedPurchase(true);
+        setIsProductPurchased(true); // Set product purchased flag to true
+        setShowDialog(false);
+
+        // Handle the updated product or show an alert
+        console.log("Product purchased and updated:", updatedProduct);
+        window.alert("Product purchased successfully!");
+
+        // You can also update your local state or navigate to another page
+      } else {
+        console.error("Error purchasing product:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error purchasing product:", error);
+    }
   };
 
   const handleCancelBuy = () => {
@@ -45,13 +79,15 @@ function SingleProductPage() {
         const response = await fetch(`http://localhost:9090/product/${id}`);
         const product = await response.json();
         setProduct(product);
+
+        setIsProductPurchased(product.buyer_id === userData.user_id);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
 
     fetchProducts();
-  }, [id]);
+  }, [id, userData.user_id]);
 
   if (product === null) {
     return <div>Loading...</div>;
@@ -116,6 +152,9 @@ function SingleProductPage() {
             style={{ flex: "0.2" }}
             variant="gradient"
             gradient={{ from: "indigo", to: "cyan" }}
+            disabled={
+              userData.user_id === product.owner_id || isProductPurchased
+            }
           >
             Rent
           </Button>
@@ -125,6 +164,9 @@ function SingleProductPage() {
             variant="gradient"
             gradient={{ from: "indigo", to: "cyan" }}
             onClick={handleBuyClick}
+            disabled={
+              userData.user_id === product.owner_id || isProductPurchased
+            }
           >
             Buy
           </Button>

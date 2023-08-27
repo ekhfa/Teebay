@@ -198,20 +198,6 @@ app.get("/product/:id", async (req, res) => {
   }
 });
 
-//For getting all the products by User
-app.get("/products/user/:id", async (req, res) => {
-  try {
-    const products = await prisma.product.findMany({
-      where: { owner_id: parseInt(req.params.id) },
-    });
-
-    res.status(200).send(products);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 //For getting all sold products of a User
 app.get("/sold-products/user/:id", async (req, res) => {
   try {
