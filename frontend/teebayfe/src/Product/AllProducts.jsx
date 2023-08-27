@@ -96,7 +96,8 @@ function AllProducts() {
   }, []);
 
   const handleLogout = () => {
-    //navigate("/");
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   const handleCardClick = (id) => {
@@ -145,7 +146,7 @@ function AllProducts() {
             </NavLink>
           </Group>
           <Group className={classes.hiddenMobile}>
-            <Button>LOGOUT</Button>
+            <Button onClick={handleLogout}>LOGOUT</Button>
           </Group>
           <Burger
             opened={drawerOpened}
