@@ -1,30 +1,82 @@
 import React, { useState, useEffect } from "react";
 import {
-  Button,
+  createStyles,
+  Header,
   Group,
+  Divider,
+  Box,
+  Burger,
+  Drawer,
+  Card,
+  ScrollArea,
+  rem,
   Container,
   Text,
   Title,
-  Card,
+  Button,
   ActionIcon,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { FaTrash } from "react-icons/fa";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+
+const useStyles = createStyles((theme) => ({
+  link: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    paddingLeft: theme.spacing.md,
+    paddingRight: theme.spacing.md,
+    textDecoration: "none",
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontWeight: 500,
+    fontSize: theme.fontSizes.sm,
+
+    [theme.fn.smallerThan("sm")]: {
+      height: rem(42),
+      display: "flex",
+      alignItems: "center",
+      width: "100%",
+    },
+
+    ...theme.fn.hover({
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
+    }),
+  },
+
+  hiddenMobile: {
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
+
+  hiddenDesktop: {
+    [theme.fn.largerThan("sm")]: {
+      display: "none",
+    },
+  },
+
+  active: {
+    color: "red",
+  },
+}));
 
 function MyProducts() {
+  const location = useLocation();
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
+  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  const { classes, theme } = useStyles();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   const buttonStyle = {
     position: "absolute",
-    top: "20px",
-    left: "30px",
-  };
-
-  const logoutButtonStyle = {
-    position: "absolute",
-    top: "20px",
-    right: "30px",
+    bottom: "20px",
+    right: "225px",
   };
 
   const cardContainerStyle = {
@@ -36,7 +88,7 @@ function MyProducts() {
   };
 
   let userData = JSON.parse(localStorage.getItem("user"));
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     // Fetch products from the backend API
@@ -56,6 +108,10 @@ function MyProducts() {
 
     fetchProducts();
   }, []);
+
+  const handleLogout = () => {
+    //navigate("/");
+  };
 
   const handleCardClick = (id) => {
     navigate(`/editproducts/${id}`);
@@ -83,84 +139,192 @@ function MyProducts() {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Container size="xl" style={{ paddingTop: "60px", flex: 1 }}>
-        <Title
-          align="center"
-          sx={(theme) => ({
-            fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-            fontWeight: 900,
-          })}
-        >
-          My Products!
-        </Title>
-        <NavLink to="/rootform">
-          <Button size="sm" variant="light" style={buttonStyle}>
-            Add Product
-          </Button>
-        </NavLink>
-        <Group style={logoutButtonStyle}>
-          <Button size="sm" variant="light">
-            LOGOUT
-          </Button>
-        </Group>
-        <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              shadow="sm"
-              padding="lg"
-              style={{
-                cursor: "pointer",
-                marginBottom: "20px",
-                backgroundColor: "#f0f0f0",
-              }} // Grey background color
-              onClick={() => handleCardClick(product.id)}
+    <Box pb={120}>
+      <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
+        <Group position="apart" sx={{ height: "100%" }}>
+          <Group position="apart" sx={{ alignItems: "center" }}>
+            <span className={classes.link}>
+              <span style={{ fontSize: theme.fontSizes.xl, fontWeight: 800 }}>
+                Teebay
+              </span>
+            </span>
+          </Group>
+          <Group
+            sx={{ height: "100%" }}
+            spacing={0}
+            className={classes.hiddenMobile}
+          >
+            <NavLink
+              to="/allproducts"
+              className={`${classes.link} ${
+                location.pathname === "/allproducts" ? classes.active : ""
+              }`}
             >
-              <Text size="xl" style={{ marginBottom: "0.5rem" }}>
-                {product.title}
-              </Text>
-              <Text>Categories: {product.categories}</Text>
-              <Text>{product.description}</Text>
-              <Text>
-                Price: {product.price} | Rent: {product.rent_price} {" Per "}
-                {product.rent_period}
-              </Text>
-              <ActionIcon
-                position="absolute"
-                right="10px"
-                top="10px"
-                size="md"
+              All Products
+            </NavLink>
+            <NavLink
+              to="/myproducts"
+              className={`${classes.link} ${
+                location.pathname === "/myproducts" ? classes.active : ""
+              }`}
+            >
+              My Products
+            </NavLink>
+            <NavLink
+              to="/bought"
+              className={`${classes.link} ${
+                location.pathname === "/bought" ? classes.active : ""
+              }`}
+            >
+              My History
+            </NavLink>
+          </Group>
+          <Group className={classes.hiddenMobile}>
+            <Button>LOGOUT</Button>
+          </Group>
+          <Burger
+            opened={drawerOpened}
+            onClick={toggleDrawer}
+            className={classes.hiddenDesktop}
+          />
+        </Group>
+      </Header>
+      <div
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Container size="xl" style={{ paddingTop: "60px", flex: 1 }}>
+          <Title
+            align="center"
+            sx={(theme) => ({
+              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              fontWeight: 900,
+            })}
+          >
+            My Products!
+          </Title>
+          <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
+            {products.map((product) => (
+              <Card
+                key={product.id}
+                shadow="sm"
+                padding="lg"
                 style={{
-                  backgroundColor: "transparent",
-                  border: "none",
-                  outline: "none",
-                  padding: 0,
                   cursor: "pointer",
-                  position: "absolute",
-                  right: "10px",
-                  top: "10px",
-                }}
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent event propagation
-                  handleDelete(product.id);
-                }}
+                  marginBottom: "20px",
+                  backgroundColor: "#f0f0f0",
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  maxWidth: "600px",
+                }} // Grey background color
+                onClick={() => handleCardClick(product.id)}
               >
-                <FaTrash />
-              </ActionIcon>
-            </Card>
-          ))}
-        </div>
-      </Container>
-    </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    flexGrow: 1,
+                  }}
+                >
+                  <Text size="xl" style={{ marginBottom: "0.5rem" }}>
+                    {product.title}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Categories: {product.categories.join(", ")}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Price: ${product.price.toFixed(2)} | Rent: $
+                    {product.rent_price.toFixed(2)} {" Per "}
+                    {product.rent_period}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    {product.description}
+                  </Text>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <Text>
+                      Date Posted:{" "}
+                      {new Date(product.createdAt).toLocaleDateString()}
+                    </Text>
+                    <Text>Views: {product.views}</Text>
+                  </div>
+                </div>
+                <ActionIcon
+                  position="absolute"
+                  right="10px"
+                  top="10px"
+                  size="md"
+                  style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                    outline: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    position: "absolute",
+                    right: "10px",
+                    top: "10px",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent event propagation
+                    handleDelete(product.id);
+                  }}
+                >
+                  <FaTrash />
+                </ActionIcon>
+              </Card>
+            ))}
+          </div>
+          <NavLink to="/rootform">
+            <Button size="sm" variant="light" style={buttonStyle}>
+              Add Product
+            </Button>
+          </NavLink>
+        </Container>
+      </div>
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        size="100%"
+        padding="md"
+        title="Navigation"
+        className={classes.hiddenDesktop}
+        zIndex={1000000}
+      >
+        <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
+          <Divider
+            my="sm"
+            color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
+          />
+          <NavLink to="/allproducts" className={classes.link}>
+            All Products
+          </NavLink>
+          <NavLink to="/myproducts" className={classes.link}>
+            My products
+          </NavLink>
+          <NavLink to="/bought" className={classes.link}>
+            My History
+          </NavLink>
+          <Divider
+            my="sm"
+            color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
+          />
+          <Group position="center" grow pb="xl" px="md">
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          </Group>
+        </ScrollArea>
+      </Drawer>
+    </Box>
   );
 }
 

@@ -79,7 +79,6 @@ function BoughtProduct() {
   };
 
   let userData = JSON.parse(localStorage.getItem("user"));
-  console.log(userData.user_id);
 
   useEffect(() => {
     const fetchBoughtProducts = async () => {
@@ -96,6 +95,7 @@ function BoughtProduct() {
 
     fetchBoughtProducts();
   }, [userData.user_id]);
+
   return (
     <Box pb={120}>
       <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
@@ -185,6 +185,8 @@ function BoughtProduct() {
                   backgroundColor: "#f0f0f0",
                   display: "flex",
                   flexDirection: "column",
+                  width: "100%",
+                  maxWidth: "600px",
                 }}
               >
                 <div
@@ -197,7 +199,30 @@ function BoughtProduct() {
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
                     {product.title}
                   </Text>
-                  <Text>{product.description}</Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Categories: {product.categories.join(", ")}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Price: ${product.price.toFixed(2)} | Rent: $
+                    {product.rent_price.toFixed(2)} {" Per "}
+                    {product.rent_period}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    {product.description}
+                  </Text>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <Text>
+                      Date Posted:{" "}
+                      {new Date(product.createdAt).toLocaleDateString()}
+                    </Text>
+                    <Text>Views: {product.views}</Text>
+                  </div>
                 </div>
               </Card>
             ))}

@@ -88,12 +88,16 @@ function BorrowedProduct() {
         const borrowedProductsData = await response.json();
         setBorrowedProducts(borrowedProductsData);
       } catch (error) {
-        console.log("Error Fetching Bought Products", error);
+        console.log("Error Fetching Borrowed Products", error);
       }
     };
 
     fetchBorrowedProducts();
   }, [userData.user_id]);
+
+  const handleLogout = () => {
+    //navigate("/");
+  };
 
   return (
     <Box pb={120}>
@@ -184,6 +188,8 @@ function BorrowedProduct() {
                   backgroundColor: "#f0f0f0",
                   display: "flex",
                   flexDirection: "column",
+                  width: "100%",
+                  maxWidth: "600px",
                 }}
               >
                 <div
@@ -196,7 +202,30 @@ function BorrowedProduct() {
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
                     {product.title}
                   </Text>
-                  <Text>{product.description}</Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Categories: {product.categories.join(", ")}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    Price: ${product.price.toFixed(2)} | Rent: $
+                    {product.rent_price.toFixed(2)} {" Per "}
+                    {product.rent_period}
+                  </Text>
+                  <Text style={{ marginBottom: "0.5rem" }}>
+                    {product.description}
+                  </Text>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <Text>
+                      Date Posted:{" "}
+                      {new Date(product.createdAt).toLocaleDateString()}
+                    </Text>
+                    <Text>Views: {product.views}</Text>
+                  </div>
                 </div>
               </Card>
             ))}

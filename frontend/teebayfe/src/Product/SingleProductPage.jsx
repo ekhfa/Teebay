@@ -68,7 +68,7 @@ function SingleProductPage() {
   const cardContainerStyle = {
     display: "grid",
     gap: "20px",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(500px, 1fr))",
     width: "90%",
     margin: "20px",
   };
@@ -109,6 +109,7 @@ function SingleProductPage() {
           sx={(theme) => ({
             fontFamily: `Greycliff CF, ${theme.fontFamily}`,
             fontWeight: 900,
+            fontSize: "1.5rem",
           })}
         >
           Single Product!
@@ -124,8 +125,8 @@ function SingleProductPage() {
               backgroundColor: "#f0f0f0",
               display: "flex",
               flexDirection: "column",
-              width: "600px",
-              height: "300px",
+              width: "100%",
+              maxWidth: "600px",
             }}
           >
             <div
@@ -145,7 +146,6 @@ function SingleProductPage() {
           </Card>
         </div>
 
-        {/* Buttons for Rent and Buy */}
         <Group style={{ marginTop: "1rem", justifyContent: "space-between" }}>
           <Button
             size="sm"

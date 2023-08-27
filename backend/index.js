@@ -240,8 +240,8 @@ app.get("/lent-products/user/:id", async (req, res) => {
   }
 });
 
-//For getting all rented products of a User
-app.get("/rented-products/user/:id", async (req, res) => {
+//For getting all borrowed products of a User
+app.get("/borrowed-products/user/:id", async (req, res) => {
   try {
     const rentals = await prisma.rentals.findMany({
       where: { renter_id: parseInt(req.params.id) },
