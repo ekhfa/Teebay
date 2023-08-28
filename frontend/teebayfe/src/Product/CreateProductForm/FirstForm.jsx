@@ -9,6 +9,7 @@ function FirstForm({ formData, onChange, handleNext }) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     onChange({ [name]: value });
+    setIsValid(true);
   };
 
   const validateInput = () => {
