@@ -330,7 +330,7 @@ function SingleProductPage() {
               transform: "translate(-50%, -50%)",
               maxWidth: "80%",
               width: "35%",
-              maxWidth: "90%",
+              maxWidth: "200%",
               zIndex: 1000,
             }}
           >

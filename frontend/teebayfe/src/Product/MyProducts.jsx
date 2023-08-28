@@ -299,7 +299,6 @@ function MyProducts() {
               </Card>
             ))}
 
-            {/* Delete Confirmation Dialog */}
             {deleteConfirmation.show && (
               <div
                 style={{

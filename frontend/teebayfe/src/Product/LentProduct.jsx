@@ -221,7 +221,6 @@ function LentProduct() {
                       Date Posted:{" "}
                       {new Date(product.createdAt).toLocaleDateString()}
                     </Text>
-                    <Text>Views: {product.views}</Text>
                   </div>
                 </div>
               </Card>

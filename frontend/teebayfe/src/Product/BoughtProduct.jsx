@@ -204,9 +204,7 @@ function BoughtProduct() {
                     Categories: {product.categories.join(", ")}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
-                    Price: ${product.price.toFixed(2)} | Rent: $
-                    {product.rent_price.toFixed(2)} {" Per "}
-                    {product.rent_period}
+                    Price: ${product.price.toFixed(2)}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
                     {product.description}
@@ -222,7 +220,6 @@ function BoughtProduct() {
                       Date Posted:{" "}
                       {new Date(product.createdAt).toLocaleDateString()}
                     </Text>
-                    <Text>Views: {product.views}</Text>
                   </div>
                 </div>
               </Card>
