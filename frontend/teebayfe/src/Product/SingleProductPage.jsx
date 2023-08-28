@@ -45,14 +45,11 @@ function SingleProductPage() {
       if (response.ok) {
         const updatedProduct = await response.json();
         setConfirmedPurchase(true);
-        setIsProductPurchased(true); // Set product purchased flag to true
+        setIsProductPurchased(true);
         setShowDialog(false);
-
-        // Handle the updated product or show an alert
-        console.log("Product purchased and updated:", updatedProduct);
         window.alert("Product purchased successfully!");
 
-        // You can also update your local state or navigate to another page
+        //console.log("Product purchased and updated:", updatedProduct);
       } else {
         console.error("Error purchasing product:", response.statusText);
       }
@@ -197,7 +194,7 @@ function SingleProductPage() {
           <Dialog
             opened={showDialog}
             onClose={handleCancelBuy}
-            size="md"
+            size="xs"
             title="Confirm Purchase"
             style={{
               display: "flex",
@@ -205,10 +202,12 @@ function SingleProductPage() {
               justifyContent: "center",
               alignItems: "center",
               position: "fixed",
-              top: "40%",
-              left: "37%",
+              top: "30%",
+              left: "32%",
               transform: "translate(-50%, -50%)",
               maxWidth: "80%",
+              width: "35%",
+              maxWidth: "90%",
               zIndex: 1000,
             }}
           >
@@ -216,7 +215,7 @@ function SingleProductPage() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: "center",
                 marginTop: "1rem",
               }}
             >
