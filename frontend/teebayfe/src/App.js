@@ -3,7 +3,6 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./User/LoginPage";
 import SignupPage from "./User/SignupPage";
-import Navbar from "./Components/Navbar";
 import MyProducts from "./Product/MyProducts";
 import RootForm from "./Product/CreateProductForm/RootForm";
 import AllProducts from "./Product/AllProducts";
@@ -22,10 +21,6 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignupPage />,
-  },
-  {
-    path: "/navbar",
-    element: <Navbar />,
   },
   {
     path: "/rootform",

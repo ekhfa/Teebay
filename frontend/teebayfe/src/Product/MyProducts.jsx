@@ -72,6 +72,10 @@ function MyProducts() {
   const { classes, theme } = useStyles();
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    show: false,
+    productId: null,
+  });
 
   const cardContainerStyle = {
     display: "grid",
@@ -113,10 +117,19 @@ function MyProducts() {
     navigate(`/editproducts/${id}`);
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteConfirmation = (productId) => {
+    setDeleteConfirmation({ show: true, productId });
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setDeleteConfirmation({ show: false, productId: null });
+  };
+
+  const handleDeleteConfirmed = async () => {
+    const productId = deleteConfirmation.productId;
     try {
       const response = await fetch(
-        `http://localhost:9090/product/delete/${id}`,
+        `http://localhost:9090/product/delete/${productId}`,
         {
           method: "DELETE",
         }
@@ -124,8 +137,9 @@ function MyProducts() {
 
       if (response.ok) {
         setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== id)
+          prevProducts.filter((product) => product.id !== productId)
         );
+        handleCloseDeleteDialog();
       } else {
         console.error("Failed to delete product");
       }
@@ -134,6 +148,10 @@ function MyProducts() {
     }
   };
 
+  const handleDelete = (id) => {
+    // Show delete confirmation dialog
+    handleDeleteConfirmation(id);
+  };
   return (
     <Box pb={120}>
       <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
@@ -280,6 +298,42 @@ function MyProducts() {
                 </ActionIcon>
               </Card>
             ))}
+
+            {/* Delete Confirmation Dialog */}
+            {deleteConfirmation.show && (
+              <div
+                style={{
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  background: "rgba(0, 0, 0, 0.5)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    background: "#fff",
+                    padding: "20px",
+                    borderRadius: "4px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  <p>Are you sure you want to delete this product?</p>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirmed} color="red">
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
             <NavLink to="/rootform">
               <Button
                 size="sm"
