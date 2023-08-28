@@ -17,6 +17,9 @@ app.use(
 //For testing
 app.get("/hello", (req, res) => {
   try {
+    // const today = new Date();
+    // console.log(today);
+
     res.send({ msg: "hello" });
   } catch (error) {
     console.log(error);
@@ -150,7 +153,11 @@ app.delete("/product/delete/:id", async (req, res) => {
 //For getting all the products
 app.get("/products", async (req, res) => {
   try {
-    const products = await prisma.product.findMany({});
+    const products = await prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     res.status(200).send(products);
   } catch (error) {
@@ -164,6 +171,9 @@ app.get("/products/user/:id", async (req, res) => {
   try {
     const products = await prisma.product.findMany({
       where: { owner_id: parseInt(req.params.id) },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     res.status(200).send(products);
@@ -203,6 +213,9 @@ app.get("/sold-products/user/:id", async (req, res) => {
   try {
     const products = await prisma.product.findMany({
       where: { owner_id: parseInt(req.params.id), status: "bought" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     res.status(200).send(products);
@@ -217,6 +230,9 @@ app.get("/bought-products/user/:id", async (req, res) => {
   try {
     const products = await prisma.product.findMany({
       where: { buyer_id: parseInt(req.params.id) },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     res.status(200).send(products);
@@ -231,6 +247,9 @@ app.get("/lent-products/user/:id", async (req, res) => {
   try {
     const products = await prisma.product.findMany({
       where: { owner_id: parseInt(req.params.id), status: "rented" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     res.status(200).send(products);
@@ -245,6 +264,7 @@ app.get("/borrowed-products/user/:id", async (req, res) => {
   try {
     const rentals = await prisma.rentals.findMany({
       where: { renter_id: parseInt(req.params.id) },
+
       include: {
         product: true, //eager loading products
       },
@@ -260,6 +280,26 @@ app.get("/borrowed-products/user/:id", async (req, res) => {
 //For buying a product
 app.post("/buy/product/:id", async (req, res) => {
   try {
+    // -- checking rental information to check date availability -- //
+    const product_id = parseInt(req.params.id);
+    let rentals = await prisma.rentals.findMany({
+      where: {
+        product_id: product_id,
+      },
+    });
+
+    const today = new Date();
+
+    const hasConflict = checkRentalConflict(rentals, {
+      rent_from: today,
+      rent_to: today,
+    });
+
+    //Returning forbidden status if conflict is found
+    if (hasConflict) {
+      res.status(403).send({ err: "conflict found in rental dates" });
+      return;
+    }
     const product = await prisma.product.update({
       where: { id: parseInt(req.params.id) },
       data: {
