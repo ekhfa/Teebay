@@ -249,10 +249,10 @@ function MyProducts() {
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
                     {product.title}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Categories: {product.categories.join(", ")}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Price: ${product.price.toFixed(2)} | Rent: $
                     {product.rent_price.toFixed(2)} {" Per "}
                     {product.rent_period}
@@ -267,11 +267,13 @@ function MyProducts() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    <Text>
+                    <Text style={{ color: "grey" }}>
                       Date Posted:{" "}
                       {new Date(product.createdAt).toLocaleDateString()}
                     </Text>
-                    <Text>Views: {product.views}</Text>
+                    <Text style={{ color: "grey" }}>
+                      Views: {product.views}
+                    </Text>
                   </div>
                 </div>
                 <ActionIcon

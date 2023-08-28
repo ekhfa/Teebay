@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Container, TextInput, Center } from "@mantine/core";
 
 function FirstForm({ formData, onChange, handleNext }) {
-  const [isValid, setIsValid] = useState(true); // State to track input validity
+  const [isValid, setIsValid] = useState(true);
 
   //console.log("Rendering FirstForm with formData:", formData);
 

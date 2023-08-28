@@ -10,15 +10,31 @@ function ProductSummaryCard({ formData, handleBack, handleSubmit }) {
           padding="lg"
           style={{ height: "fit-content", backgroundColor: "white" }}
         >
-          <Text align="center" size="xl" style={{ marginBottom: "1rem" }}>
+          <Text
+            align="center"
+            size="xl"
+            style={{ marginBottom: "1rem", marginTop: "5rem" }}
+          >
             Summary
           </Text>
-          <Text>Product Title: {formData.title}</Text>
-          <Text>Product Categories: {formData.categories.join(", ")}</Text>
-          <Text>Product Description: {formData.description}</Text>
-          <Text>Product Price: {formData.price}</Text>
-          <Text>Product Rent Price: {formData.rent_price}</Text>
-          <Text>Product Rent Period: {formData.rent_period}</Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Title: {formData.title}
+          </Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Categories: {formData.categories.join(", ")}
+          </Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Description: {formData.description}
+          </Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Price: {formData.price}
+          </Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Rent Price: {formData.rent_price}
+          </Text>
+          <Text style={{ marginBottom: "0.5rem" }}>
+            Product Rent Period: {formData.rent_period}
+          </Text>
           <Group style={{ marginTop: "1rem", justifyContent: "center" }}>
             <Button
               size="sm"

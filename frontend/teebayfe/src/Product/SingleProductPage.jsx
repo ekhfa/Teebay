@@ -66,6 +66,11 @@ function SingleProductPage() {
 
         //console.log("Product purchased and updated:", updatedProduct);
       } else {
+        if (response.status == 403) {
+          window.alert("Product On Rent.  Can't buy Right Now!");
+        } else {
+          window.alert("Something went Wrong!");
+        }
         console.error("Error purchasing product:", response.statusText);
       }
     } catch (error) {
@@ -133,6 +138,11 @@ function SingleProductPage() {
         console.log("Product rented and updated:", product);
         console.log("Rental created:", rental);
       } else {
+        if (response.status == 403) {
+          window.alert("Time Period Conflict. Please Choose Another Time");
+        } else {
+          window.alert("Something went Wrong!");
+        }
         console.error("Error renting product:", response.statusText);
       }
     } catch (error) {
@@ -184,6 +194,23 @@ function SingleProductPage() {
               maxWidth: "600px",
             }}
           >
+            <div
+              style={{
+                alignSelf: "flex-end",
+                marginTop: "0.2 rem",
+                marginRight: "0.5 rem",
+              }}
+            >
+              {product.status === "bought" && (
+                <span style={{ color: "red" }}>Sold</span>
+              )}
+              {product.status === "rented" && (
+                <span style={{ color: "blue" }}>On Rent</span>
+              )}
+              {product.status === "available" && (
+                <span style={{ color: "green" }}>Available</span>
+              )}
+            </div>
             <div
               style={{
                 display: "flex",
