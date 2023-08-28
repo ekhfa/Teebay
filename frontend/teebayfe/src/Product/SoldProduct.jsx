@@ -13,6 +13,7 @@ import {
   Container,
   Text,
   Title,
+  Button,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
@@ -63,6 +64,7 @@ const useStyles = createStyles((theme) => ({
 
 function SoldProduct() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -94,6 +96,11 @@ function SoldProduct() {
 
     fetchSoldProducts();
   }, [userData.user_id]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <Box pb={120}>
@@ -144,7 +151,9 @@ function SoldProduct() {
               Lent
             </NavLink>
           </Group>
-          <Group className={classes.hiddenMobile}></Group>
+          <Group className={classes.hiddenMobile}>
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          </Group>
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
@@ -277,7 +286,9 @@ function SoldProduct() {
             my="sm"
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
           />
-          <Group position="center" grow pb="xl" px="md"></Group>
+          <Group position="center" grow pb="xl" px="md">
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          </Group>
         </ScrollArea>
       </Drawer>
     </Box>

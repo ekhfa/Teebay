@@ -12,6 +12,7 @@ import {
   Container,
   Text,
   Title,
+  Button,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState, useEffect } from "react";
@@ -63,6 +64,7 @@ const useStyles = createStyles((theme) => ({
 
 function LentProduct() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -95,6 +97,11 @@ function LentProduct() {
 
     fetchLentProducts();
   }, [userData.user_id]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <Box pb={120}>
@@ -145,7 +152,9 @@ function LentProduct() {
               Lent
             </NavLink>
           </Group>
-          <Group className={classes.hiddenMobile}></Group>
+          <Group className={classes.hiddenMobile}>
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          </Group>
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
@@ -280,7 +289,9 @@ function LentProduct() {
             my="sm"
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
           />
-          <Group position="center" grow pb="xl" px="md"></Group>
+          <Group position="center" grow pb="xl" px="md">
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          </Group>
         </ScrollArea>
       </Drawer>
     </Box>
