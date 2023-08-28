@@ -279,10 +279,46 @@ app.post("/buy/product/:id", async (req, res) => {
   }
 });
 
-//For renting a product
+//function to check rent date periods conflicts
+function checkRentalConflict(rentals, newRental) {
+  for (const rental of rentals) {
+    const existingRentFrom = new Date(rental.rent_from);
+    const existingRentTo = new Date(rental.rent_to);
+    const newRentFrom = new Date(newRental.rent_from);
+    const newRentTo = new Date(newRental.rent_to);
+
+    if (
+      (newRentFrom >= existingRentFrom && newRentFrom <= existingRentTo) ||
+      (newRentTo >= existingRentFrom && newRentTo <= existingRentTo) ||
+      (existingRentFrom >= newRentFrom && existingRentFrom <= newRentTo) ||
+      (existingRentTo >= newRentFrom && existingRentTo <= newRentTo)
+    ) {
+      return true; // Conflict found
+    }
+  }
+  return false; // No conflicts
+}
+
+//Renting Route
 app.post("/rent/product/:id", async (req, res) => {
   try {
     const product_id = parseInt(req.params.id);
+
+    // -- checking rental information to check date availability -- //
+
+    let rentals = await prisma.rentals.findMany({
+      where: {
+        product_id: product_id,
+      },
+    });
+
+    const hasConflict = checkRentalConflict(rentals, req.body);
+
+    //Returning forbidden status if conflict is found
+    if (hasConflict) {
+      res.status(403).send({ err: "conflict found in rental dates" });
+      return;
+    }
 
     const product = await prisma.product.update({
       where: { id: product_id },
