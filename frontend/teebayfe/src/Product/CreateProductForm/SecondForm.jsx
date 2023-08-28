@@ -7,6 +7,7 @@ const categoriesOptions = [
   { value: "Home Appliances", label: "HOME APPLIANCES" },
   { value: "Sporting Goods", label: "SPORTING GOODS" },
   { value: "Outdoor", label: "OUTDOOR" },
+  { value: "Toys", label: "TOYS" },
 ];
 
 function SecondForm({ formData, onChange, handleBack, handleNext }) {

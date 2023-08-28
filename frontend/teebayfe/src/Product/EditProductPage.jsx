@@ -24,6 +24,7 @@ function EditProductPage() {
     { value: "Home Appliances", label: "HOME APPLIANCES" },
     { value: "Sporting Goods", label: "SPORTING GOODS" },
     { value: "Outdoor", label: "OUTDOOR" },
+    { value: "Toys", label: "TOYS" },
   ];
 
   const hourlyOptions = [
