@@ -108,11 +108,11 @@ function BorrowedProduct() {
       <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
         <Group position="apart" sx={{ height: "100%" }}>
           <Group position="apart" sx={{ alignItems: "center" }}>
-            <span className={classes.link}>
+            <NavLink to="/allproducts" className={classes.link}>
               <span style={{ fontSize: theme.fontSizes.xl, fontWeight: 800 }}>
                 Teebay
               </span>
-            </span>
+            </NavLink>
           </Group>
           <Group
             sx={{ height: "100%" }}
@@ -208,10 +208,10 @@ function BorrowedProduct() {
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
                     {borrowedProduct.product.title}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Categories: {borrowedProduct.product.categories.join(", ")}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Price: ${borrowedProduct.product.price.toFixed(2)}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
@@ -224,11 +224,11 @@ function BorrowedProduct() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    <Text>
+                    <Text style={{ color: "grey" }}>
                       Rent From:{" "}
                       {new Date(borrowedProduct.rent_from).toLocaleDateString()}
                     </Text>
-                    <Text>
+                    <Text style={{ color: "grey" }}>
                       Rent to:{" "}
                       {new Date(borrowedProduct.rent_to).toLocaleDateString()}
                     </Text>

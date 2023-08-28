@@ -108,11 +108,11 @@ function LentProduct() {
       <Header height={60} px="md" style={{ background: theme.colors.gray[3] }}>
         <Group position="apart" sx={{ height: "100%" }}>
           <Group position="apart" sx={{ alignItems: "center" }}>
-            <span className={classes.link}>
+            <NavLink to="/allproducts" className={classes.link}>
               <span style={{ fontSize: theme.fontSizes.xl, fontWeight: 800 }}>
                 Teebay
               </span>
-            </span>
+            </NavLink>
           </Group>
           <Group
             sx={{ height: "100%" }}
@@ -208,10 +208,10 @@ function LentProduct() {
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
                     {product.title}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Categories: {product.categories.join(", ")}
                   </Text>
-                  <Text style={{ marginBottom: "0.5rem" }}>
+                  <Text style={{ marginBottom: "0.5rem", color: "grey" }}>
                     Price: ${product.price.toFixed(2)} | Rent: $
                     {product.rent_price.toFixed(2)} {" Per "}
                     {product.rent_period}
@@ -226,7 +226,7 @@ function LentProduct() {
                       marginBottom: "0.5rem",
                     }}
                   >
-                    <Text>
+                    <Text style={{ color: "grey" }}>
                       Date Posted:{" "}
                       {new Date(product.createdAt).toLocaleDateString()}
                     </Text>
