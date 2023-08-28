@@ -87,6 +87,7 @@ function BoughtProduct() {
           `http://localhost:9090/bought-products/user/${userData.user_id}`
         );
         const boughtProductsData = await response.json();
+        //console.log(boughtProductsData);
         setBoughtProducts(boughtProductsData);
       } catch (error) {
         console.log("Error Fetching Bought Products", error);

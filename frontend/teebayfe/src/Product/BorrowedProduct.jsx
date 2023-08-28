@@ -86,6 +86,7 @@ function BorrowedProduct() {
           `http://localhost:9090/borrowed-products/user/${userData.user_id}`
         );
         const borrowedProductsData = await response.json();
+        console.log(borrowedProductsData);
         setBorrowedProducts(borrowedProductsData);
       } catch (error) {
         console.log("Error Fetching Borrowed Products", error);
@@ -177,9 +178,9 @@ function BorrowedProduct() {
             Borrowed Products!
           </Title>
           <div style={{ ...cardContainerStyle, gridTemplateColumns: "1fr" }}>
-            {borrowedProducts.map((product) => (
+            {borrowedProducts.map((borrowedProduct) => (
               <Card
-                key={product.id}
+                key={borrowedProduct.id}
                 shadow="sm"
                 padding="lg"
                 style={{
@@ -200,18 +201,16 @@ function BorrowedProduct() {
                   }}
                 >
                   <Text size="xl" style={{ marginBottom: "0.5rem" }}>
-                    {product.title}
+                    {borrowedProduct.product.title}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
-                    Categories: {product.categories.join(", ")}
+                    Categories: {borrowedProduct.product.categories.join(", ")}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
-                    Price: ${product.price.toFixed(2)} | Rent: $
-                    {product.rent_price.toFixed(2)} {" Per "}
-                    {product.rent_period}
+                    Price: ${borrowedProduct.product.price.toFixed(2)}
                   </Text>
                   <Text style={{ marginBottom: "0.5rem" }}>
-                    {product.description}
+                    {borrowedProduct.product.description}
                   </Text>
                   <div
                     style={{
@@ -221,10 +220,13 @@ function BorrowedProduct() {
                     }}
                   >
                     <Text>
-                      Date Posted:{" "}
-                      {new Date(product.createdAt).toLocaleDateString()}
+                      Rent From:{" "}
+                      {new Date(borrowedProduct.rent_from).toLocaleDateString()}
                     </Text>
-                    <Text>Views: {product.views}</Text>
+                    <Text>
+                      Rent to:{" "}
+                      {new Date(borrowedProduct.rent_to).toLocaleDateString()}
+                    </Text>
                   </div>
                 </div>
               </Card>
