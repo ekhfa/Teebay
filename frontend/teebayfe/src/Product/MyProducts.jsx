@@ -73,18 +73,13 @@ function MyProducts() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  const buttonStyle = {
-    position: "absolute",
-    bottom: "20px",
-    right: "225px",
-  };
-
   const cardContainerStyle = {
     display: "grid",
     gap: "20px",
     gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     width: "90%",
     margin: "20px",
+    position: "relative",
   };
 
   let userData = JSON.parse(localStorage.getItem("user"));
@@ -285,12 +280,17 @@ function MyProducts() {
                 </ActionIcon>
               </Card>
             ))}
+            <NavLink to="/rootform">
+              <Button
+                size="sm"
+                style={{ flex: "0.2" }}
+                variant="gradient"
+                gradient={{ from: "indigo", to: "cyan" }}
+              >
+                Add Product
+              </Button>
+            </NavLink>
           </div>
-          <NavLink to="/rootform">
-            <Button size="sm" variant="light" style={buttonStyle}>
-              Add Product
-            </Button>
-          </NavLink>
         </Container>
       </div>
       <Drawer
