@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Container, Textarea, Center, Group } from '@mantine/core';
+import React, { useState } from "react";
+import { Button, Container, Textarea, Center, Group } from "@mantine/core";
 
 function ThirdForm({ formData, onChange, handleBack, handleNext }) {
   const [isValid, setIsValid] = useState(true);
@@ -10,43 +10,43 @@ function ThirdForm({ formData, onChange, handleBack, handleNext }) {
   };
 
   const validateInput = () => {
-    if (!formData.productDescription || formData.productDescription.trim() === '') {
+    if (!formData.description || formData.description.trim() === "") {
       setIsValid(false);
     } else {
       setIsValid(true);
       handleNext();
     }
   };
-  
+
   return (
-    <Container size="xl" style={{ minHeight: '100vh' }}>
-      <Center style={{ width: '100%', marginTop: '8rem' }}>
-        <div style={{ width: '100%', maxWidth: 450 }}>
+    <Container size="xl" style={{ minHeight: "100vh" }}>
+      <Center style={{ width: "100%", marginTop: "8rem" }}>
+        <div style={{ width: "100%", maxWidth: 450 }}>
           <Textarea
-            name="productDescription"
-            value={formData.productDescription}
+            name="description"
+            value={formData.description}
             onChange={handleInputChange}
             placeholder="Product Description"
             label="Select Description"
             withAsterisk
-            style={{ marginBottom: '1rem' }}
+            style={{ marginBottom: "1rem" }}
           />
-          <Group style={{ marginTop: '1rem', justifyContent: 'space-between' }}>
+          <Group style={{ marginTop: "1rem", justifyContent: "space-between" }}>
             <Button
               size="sm"
-              style={{ flex: '0.2' }}
+              style={{ flex: "0.2" }}
               variant="gradient"
-              gradient={{ from: 'indigo', to: 'cyan' }}
+              gradient={{ from: "indigo", to: "cyan" }}
               onClick={handleBack}
             >
               Back
             </Button>
             <Button
               size="sm"
-              style={{ flex: '0.2' }}
+              style={{ flex: "0.2" }}
               variant="gradient"
-              gradient={{ from: 'indigo', to: 'cyan' }}
-              onClick={validateInput} 
+              gradient={{ from: "indigo", to: "cyan" }}
+              onClick={validateInput}
             >
               Next
             </Button>

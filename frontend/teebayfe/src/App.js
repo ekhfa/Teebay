@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./User/LoginPage";
 import SignupPage from "./User/SignupPage";
-import Navbar from "./Components/Navbar";
 import MyProducts from "./Product/MyProducts";
 import RootForm from "./Product/CreateProductForm/RootForm";
 import AllProducts from "./Product/AllProducts";
@@ -11,6 +10,8 @@ import BorrowedProduct from "./Product/BorrowedProduct";
 import BoughtProduct from "./Product/BoughtProduct";
 import SoldProduct from "./Product/SoldProduct";
 import LentProduct from "./Product/LentProduct";
+import SingleproductPage from "./Product/SingleProductPage";
+import EditProductPage from "./Product/EditProductPage";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +23,6 @@ const router = createBrowserRouter([
     element: <SignupPage />,
   },
   {
-    path: "/navbar",
-    element: <Navbar />,
-  },
-  {
     path: "/rootform",
     element: <RootForm />,
   },
@@ -34,8 +31,16 @@ const router = createBrowserRouter([
     element: <MyProducts />,
   },
   {
+    path: "/editproducts/:id",
+    element: <EditProductPage />,
+  },
+  {
     path: "/allproducts",
     element: <AllProducts />,
+  },
+  {
+    path: "/product/:id",
+    element: <SingleproductPage />,
   },
   {
     path: "/borrowed",

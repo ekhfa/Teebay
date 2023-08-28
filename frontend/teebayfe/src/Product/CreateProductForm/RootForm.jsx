@@ -1,12 +1,13 @@
-import React,  { useState, useEffect }from 'react';
-import { Container } from '@mantine/core';
-import FirstForm from './FirstForm';
-import SecondForm from './SecondForm';
-import ThirdForm from './ThirdForm';
-import ForthForm from './ForthForm';
-import SummaryForm from './SummaryForm';
-import Dashboard from '../MyProducts';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Container } from "@mantine/core";
+import FirstForm from "./FirstForm";
+import SecondForm from "./SecondForm";
+import ThirdForm from "./ThirdForm";
+import ForthForm from "./ForthForm";
+import SummaryForm from "./SummaryForm";
+import Dashboard from "../MyProducts";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function RootForm() {
   const [products, setProducts] = useState([]);
@@ -14,12 +15,12 @@ function RootForm() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    productTitle: '',
-    productCategories: [],
-    productDescription: '',
-    productPrice: '',
-    productRent: '',
-    productDays: '',
+    title: "",
+    categories: [],
+    description: "",
+    price: "",
+    rent_price: "",
+    rent_period: "",
   });
 
   const handleNext = () => {
@@ -32,42 +33,83 @@ function RootForm() {
     setStep(step - 1);
   };
 
-  const handleSubmit = () => {
-    console.log("handleSubmit called");
-    console.log("Current formData:", formData);
-    setProducts([...products, formData]);
-    navigate('/myproducts'); 
-    
+  const handleSubmit = async () => {
+    //getting userdata from local storage
+    let userData = JSON.parse(localStorage.getItem("user"));
+    //console.log(userData);
+
+    formData["owner_id"] = userData.user_id;
+    console.log("formDataTesting", formData);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:9090/product/create",
+        formData
+      );
+      //console.log("Product submitted:", response.data);
+      setProducts([...products, response.data]);
+      navigate("/myproducts");
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
   };
-  
+
   const handleFormChange = (newData) => {
     setFormData({ ...formData, ...newData });
   };
 
-
   const renderStep = () => {
-     //console.log("Rendering step:", step);
+    //console.log("Rendering step:", step);
     switch (step) {
       case 0:
-        return <FirstForm formData={formData} onChange={handleFormChange} handleNext={handleNext} />;
+        return (
+          <FirstForm
+            formData={formData}
+            onChange={handleFormChange}
+            handleNext={handleNext}
+          />
+        );
       case 1:
-        return <SecondForm formData={formData} onChange={handleFormChange} handleNext={handleNext} handleBack={handleBack}/>;
+        return (
+          <SecondForm
+            formData={formData}
+            onChange={handleFormChange}
+            handleNext={handleNext}
+            handleBack={handleBack}
+          />
+        );
       case 2:
-        return <ThirdForm formData={formData} onChange={handleFormChange} handleNext={handleNext} handleBack={handleBack}/>;
+        return (
+          <ThirdForm
+            formData={formData}
+            onChange={handleFormChange}
+            handleNext={handleNext}
+            handleBack={handleBack}
+          />
+        );
       case 3:
-        return <ForthForm formData={formData} onChange={handleFormChange} handleNext={handleNext} handleBack={handleBack}/>;
+        return (
+          <ForthForm
+            formData={formData}
+            onChange={handleFormChange}
+            handleNext={handleNext}
+            handleBack={handleBack}
+          />
+        );
       case 4:
-        return <SummaryForm formData={formData} handleBack={handleBack} handleSubmit={handleSubmit}/>;
+        return (
+          <SummaryForm
+            formData={formData}
+            handleBack={handleBack}
+            handleSubmit={handleSubmit}
+          />
+        );
       default:
         return null;
     }
   };
 
-  return (
-    <Container size="md">
-       {renderStep()}
-    </Container>
-  );
+  return <Container size="md">{renderStep()}</Container>;
 }
 
 export default RootForm;
